@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/themes/plugins/global/plugins.bundle.min.js",
+    "inputFiles": [
+      "wwwroot/themes/plugins/global/plugins.bundle.js"
+    ]
+  }
+]

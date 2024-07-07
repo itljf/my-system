@@ -1,0 +1,242 @@
+﻿@page
+@using L.Permissions
+@using L.WInfoTags
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Table
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@model L.Web.Pages.NavigationMgr.IndexModel
+@inject IPageLayout PageLayout
+@{
+
+    ViewBag.Title = "导航管理";
+    PageLayout.Content.MenuItemName = LPermissions.NavigationMgr.Default;
+    var first = Model.NavList.FirstOrDefault(m => m.Id==Model.SelectId);
+}
+@section styles {
+    <link href="~/lib/dragula/dragula.min.css" rel="stylesheet" />
+    <style>
+        .nav-1 {
+            flex-direction: column;
+            height: 88px;
+            flex-wrap: wrap;
+            width: max-content;
+        }
+        .nav-2 {
+            width: 250px;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-3">
+        <div class="card sticky" data-sticky="true" data-margin-top="110px" data-sticky-for="1023" data-sticky-class="sticky">
+            <div class="card-body min-h-550px">
+                <button class="btn btn-info w-100 mb-4 js-edit-1" data-id="0" data-fid="0">添加主目录</button>
+                @foreach (var item in Model.NavList.Where(m => m.Fid == 0))
+                {
+                    <a asp-page="./Index" asp-route-id="@(item.Id)" class="btn @(item.Id == Model.SelectId ? "btn-facebook" : "btn-light-facebook") w-100 mb-4">@(item.Title)</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        @if (first!=null)
+        {
+            <div class="card mb-20">
+                <div class="card-header">
+                    <h3 class="card-title">@(first.Title)</h3>
+                    <div class="card-toolbar">
+                        <button class="btn btn-light-primary me-2 js-edit-2" data-id="0" data-fid="@(first.Id)">添加一级主题</button>
+                        <button class="btn btn-light-primary me-2 js-edit-1" data-id="@(first.Id)">编辑主目录</button>
+                        <button class="btn btn-light-danger js-delete" data-id="@(first.Id)" data-num="1" data-name="@(first.Title)">删除主目录</button>
+                    </div>
+                </div>
+                <div class="card-body min-h-500px">
+                    @foreach (var item in (first.sub ?? new List<InfoTagDto>()))
+                    {
+                        int index = 0;
+                        <div class="border-bottom mb-10 pb-5">
+                            <div class="d-flex justify-content-between">
+                                <div class="fs-3">@(item.Title)</div>
+                                <div>
+                                    <button class="btn btn-light-primary btn-sm me-2 js-edit-3" data-id="0" data-fid="@(item.Id)">添加导航</button>
+                                    <button class="btn btn-light-primary btn-sm me-2 js-edit-2" data-id="@(item.Id)">编辑一级主题</button>
+                                    <button class="btn btn-light-danger btn-sm js-delete" data-id="@(item.Id)" data-num="2" data-name="@(item.Title)">删除一级主题</button>
+                                </div>
+                            </div>
+                            <div>
+                                <table class="table align-middle fs-5">
+                                    <thead>
+                                    <tr>
+                                        <th class="w-50px text-center">#</th>
+                                        <th class="" style="width: 30%;">导航名</th>
+                                        <th>说明</th>
+                                        <th class="w-200px text-center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="nav-item-list">
+                                        @foreach (var infoTagDto in (item.sub ?? new List<InfoTagDto>()))
+                                        {
+                                            <tr>
+                                                <td class="w-50px text-center">@(++index)</td>
+                                                <td>
+                                                    @if (!infoTagDto.Files.IsNullOrWhiteSpace())
+                                                    {
+                                                        <img src="@infoTagDto.Files" style="width: 30px; height: 30px;"/>
+                                                    }
+                                                    @if (infoTagDto.Url.IsNullOrWhiteSpace())
+                                                    {
+                                                        <span>@infoTagDto.Title</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@(infoTagDto.Url)" target="_blank">@infoTagDto.Title</a>
+                                                    }
+                                                    @if (infoTagDto.Top>0)
+                                                    {
+                                                        <i class="fas fa-long-arrow-alt-up text-danger"></i>
+                                                    }
+                                                </td>
+                                                <td>@infoTagDto.Cnt</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-primary btn-sm js-edit-3" data-id="@(infoTagDto.Id)">编辑</button>
+                                                    <button class="btn btn-danger btn-sm js-delete" data-id="@(infoTagDto.Id)" data-num="3" data-name="@(infoTagDto.Title)">删除</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/lib/sticky-js/sticky.min.js"></script>
+    <script src="~/lib/dragula/dragula.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var sticky = new Sticky('.sticky');
+            // 获取要拖放的容器元素
+            var containers = document.getElementsByClassName("nav-item-list");
+
+            // 初始化 Dragula
+            var drake = dragula(containers);
+//            dragula(document.getElementsByClassName("nav-item-list"))
+//                .on('drag', function (el) {
+//                    el.className = el.className.replace('ex-moved', '');
+//                }).on('drop', function (el) {
+//                    el.className += ' ex-moved';
+//                }).on('over', function (el, container) {
+//                    container.className += ' ex-over';
+//                }).on('out', function (el, container) {
+//                    container.className = container.className.replace('ex-over', '');
+//                });
+
+            $(document).on('paste', '.js-paste-picture', function (event) {
+                var that = $(this);
+                var clipboardData = event.originalEvent.clipboardData;
+                if (clipboardData) {
+                    var items = clipboardData.items;
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].type.indexOf('image') !== -1) {
+                            var file = items[i].getAsFile();
+                            var reader = new FileReader();
+                            reader.onload = function (event) {
+                                that.val(event.target.result);
+                                that.prev().find('*').attr('src', event.target.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }
+            });
+        });
+        var element = document.getElementById('js-nav');
+
+
+        $('.js-item').click(function() {
+            var index = $(this).index();
+            var element2 = document.getElementById('js-nav' + index);
+//            element.scrollTo(element2.offsetLeft - 30, 0);
+            element.scrollTo({
+                top: 0,
+                left: element2.offsetLeft - 30,
+                behavior: 'smooth'
+            });
+        });
+//        var element2 = document.getElementById('js-nav2');
+//        console.log(element2.offsetLeft);
+//        console.log(element2.scrollWidth);
+
+
+        var _edit1Modal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'NavigationMgr/Edit1',
+            modalClass: "createNav"
+        });
+        _edit1Modal.onResult(function() {
+            window.location.reload();
+        });
+        var _edit2Modal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'NavigationMgr/Edit2',
+            modalClass: "createNav"
+        });
+        _edit2Modal.onResult(function() {
+            window.location.reload();
+        });
+        var _edit3Modal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'NavigationMgr/Edit3',
+            modalClass: "createNav"
+        });
+        _edit3Modal.onResult(function() {
+            window.location.reload();
+        });
+
+        //一级编辑
+        $('.js-edit-1').click(function() {
+            var id = $(this).data('id');
+            _edit1Modal.open({ id: id });
+        });
+        //二级编辑
+        $('.js-edit-2').click(function() {
+            var id = $(this).data('id');
+            var fid = $(this).data('fid');
+            _edit2Modal.open({ id: id, fid: fid });
+        });
+        //三级编辑
+        $('.js-edit-3').click(function() {
+            var id = $(this).data('id');
+            var fid = $(this).data('fid');
+            _edit3Modal.open({ id: id, fid: fid });
+        });
+
+
+        $('.js-delete').click(function() {
+            var id = $(this).data('id');
+            var num = $(this).data('num');
+            var name = $(this).data('name');
+            abp.message.confirm('删除将自动删除子级数据', '确定删除【' + name + '】？', function(e) {
+                if (e) {
+                    abp.ui.setBusy();
+                    l.wInfoTags.infoTag.deleteNavigation(id, num).done(function() {
+                        abp.message.info('操作成功!').done(function() {
+                            window.location.href = '/NavigationMgr/index';
+                        });
+                    }).always(function() {
+                        abp.ui.clearBusy();
+                    });
+                }
+            })
+        });
+
+    </script>
+
+}

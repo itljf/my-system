@@ -1,0 +1,151 @@
+﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@model L.Web.Pages.Blog.InfoModel
+@inject IPageLayout PageLayout
+@{
+    ViewBag.Title = "博客信息";
+    PageLayout.Content.MenuItemName = LPermissions.Blogs.Default;
+    var info = Model.info;
+}
+@section styles{
+    <link href="~/js/outline.js/outline.min.css" rel="stylesheet"/>
+    <link href="~/lib/prism/themes/prism-okaidia.min.css" rel="stylesheet"/>
+}
+@section content_toolbar {
+    @if (info.IsReprint)
+    {
+        <a class="btn btn-primary ms-2" href="@(info.Url)" target="_blank">
+            原文地址
+        </a>
+    }
+    <a class="btn btn-primary ms-2" href="/BlogMgr/Edit?id=@(info.Id)" target="_blank">
+        去编辑
+    </a>
+    <a class="btn btn-facebook ms-2" href="javascript:;" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+        返回
+    </a>
+}
+
+<div class="row" data-sticky-container>
+    <div class="col-9" id="article">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="">
+                    <div class="text-center fs-1 text-center my-10">@(info.Title)</div>
+                </h1>
+                <div class="text-center mt-2 mb-4 fs-4">
+                    <span>类型：@(info.IsReprint ? "转载" : "原创")</span>
+                    <span class="mx-1">|</span>
+                    <span>作者：@(info.Author)</span>
+                    <span class="mx-1">|</span>
+                    <span>原文地址：<a href="@(info.Url)" target="_blank">前往</a></span>
+                    <span class="mx-1">|</span>
+                    <span>时间：@(info.Time.ToString("yyyy年M月d日"))</span>
+                </div>
+                <div class="text-center mt-2 mb-4 fs-4">
+                    @foreach (var tag in Model.InfoTags)
+                    {
+                        <span class="mx-1"><i class="fas fa-tags text-primary me-1"></i>@(tag.Title)</span>
+                    }
+                </div>
+                @if (!info.Info.IsNullOrWhiteSpace())
+                {
+                    <div class="alert alert-info fs-4 px-20 blog-cnt" role="alert">
+                        @Html.Raw(info.Info)
+                    </div>
+                }
+                <div class="fs-4 px-20 blog-cnt">
+                    @Html.Raw(info.Cnt)
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-3">
+        <div class="card sticky" data-sticky="true" data-margin-top="110px" data-sticky-for="1023" data-sticky-class="sticky">
+            <div class="card-body" id="aside">
+            </div>
+        </div>
+    </div>
+</div>
+@* <div class="card"> *@
+@*     <div class="card-body row"> *@
+@*         <div class="col-9"> *@
+@*              *@
+@*         </div> *@
+@*         <div class="col-3"> *@
+@*             <aside id="aside"> *@
+@*                  *@
+@*             </aside> *@
+@*         </div> *@
+@*          *@
+@*     </div> *@
+@* </div> *@
+@section scripts{
+    <script src="~/js/outline.js/outline.min.js"></script>
+    <script src="~/lib/prism/prism.min.js"></script>
+    <script src="~/lib/sticky-js/sticky.min.js"></script>
+    <script>
+        $(function() {
+            
+            var sticky = new Sticky('.sticky');
+
+//            var defaults = Outline.DEFAULTS
+//            var outline
+//
+//            defaults.position = 'sticky'
+//            defaults.stickyHeight = 86
+//            defaults.parentElement = '#aside'
+//            defaults.scrollElement = 'body'
+//            outline = new Outline(defaults)
+            var outline = new Outline({
+                // 文章显示区域的 DOM 元素或者选择器字符串
+                articleElement: '#article',
+                // 要收集的标题选择器
+                selector: 'h1,h2,h3,h4,h5,h6',
+                // 负责文章区域滚动的元素
+                // String 类型 - 选择器字符串，默认值：html,body（window窗口）
+                // HTMLElement 类型 - DOM 元素
+                scrollElement: 'html,body',
+                // 文章导读菜单的位置
+                // relative - （默认值）创建独立的侧滑菜单
+                // sticky - 导航菜单将以 sticky 模式布局（需要确保菜单插入位置支持 sticky 模式布局）
+                // fixed - 导航菜单将以 fixed 模式布局，会自动监听滚动位置，模拟 sticky 布局
+                // sticky 和 fixed 布局时，需要设置 parentElement
+                // 2.0.0 暂时不支持在文章开始位置插入 chapters 导航菜单
+                position: 'sticky',
+                // 设置 position: relative 时，placment 定义侧滑菜单和 toolbar 导航位置：
+                // rtl - 菜单位置在窗口右侧，滑动动画为：right to left
+                // ltr - 菜单位置在窗口左侧，滑动动画为：left to right
+                // ttb - 菜单位置在窗口上方，滑动动画为：top to bottom
+                // btt - 菜单位置在窗口下方，滑动动画为：bottom to top
+                placement: '',
+                // 导航菜单将要插入的位置（DOM 元素）
+                // String 类型 - 选择器字符串
+                // HTMLElement 类型 - 插入的 DOM 元素
+                // 仅在 position 设置为 sticky 和 fixed 布局时有效
+                parentElement: '#aside',
+                // 是否显示段落章节编号
+                showCode: false,
+                // 标题图标链接的 URL 地址
+                // （默认）没有设置定制，点击链接页面滚动到标题位置
+                // 设置了链接地址，则不会滚动定位
+                anchorURL: '',
+                // DIYer的福利
+                // 独立侧滑菜单时，customClass 会追加到 drawer 侧滑窗口组件
+                // 在文章中显示导航菜单时，customClass 会追加到 chapters 导航菜单
+                //customClass
+            });
+
+// 可以在创建导航后，重置配置信息，重新生成新的导航
+//            Outline.reload({
+//                // 调整位直接在文章内生成导航
+//                position: 'sticky',
+//                articleElement: '#aside'
+//            })
+        })
+    </script>
+}

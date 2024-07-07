@@ -1,0 +1,220 @@
+﻿@page
+@model L.Web.Pages.BlogAnalysis.IndexModel
+@{
+    ViewBag.Title = "数据解析";
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">数据解析</h3>
+    </div>
+    <div class="card-body min-h-500px">
+        <form class="d-flex" id="js-form">
+            <select name="types" class="form-control w-200px me-2">
+                <option value="0">博客园</option>
+                <option value="1" selected="selected">微信</option>
+            </select>
+            <input type="text" name="urls" class="form-control w-400px me-2" placeholder="请输入文章链接">
+            <button id="js-jx" type="button" class="btn btn-primary me-2">解析</button>
+            <button id="js-save" type="button" class="btn btn-primary me-2">保存信息</button>
+            <button id="js-jx-save" type="button" class="btn btn-info me-2">自动解析保存</button>
+            <button id="js-jx-save-2" type="button" class="btn btn-primary me-2">全自动解析保存，解析数量：<span></span></button>
+            <a asp-page="./Index" class="btn btn-primary me-2">重置</a>
+        </form>
+        
+        <div class="mt-10">
+            <form id="js-form2">
+                <div class="row mb-4">
+                    <label class="col-2 col-form-label text-right">标题：</label>
+                    <div class="col-10">
+                        <input type="text" id="title" name="title" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <label class="col-2 col-form-label text-right">作者：</label>
+                    <div class="col-10">
+                        <input type="text" id="author" name="author" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <label class="col-2 col-form-label text-right">时间：</label>
+                    <div class="col-10">
+                        <input type="text" id="time" name="time" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <label class="col-2 col-form-label text-right">地址：</label>
+                    <div class="col-10">
+                        <input type="text" id="url" name="url" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <label class="col-2 col-form-label text-right">内容：</label>
+                    <div class="col-10">
+                        <textarea name="cnt" id="cnt"></textarea>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <abp-script src="/Pages/BlogAnalysis/index.js" />
+    <script>
+        //        $('select').select2();
+        var editorCnt;
+        ClassicEditor
+                .create(document.querySelector('#cnt'),
+                    {
+                        simpleUpload: {
+                            // 图像上传到的URL.
+                            uploadUrl: '/Files/ckeditor',
+                            // 启用XMLHttpRequest.withCredentials属性。
+                            withCredentials: true,
+                            // 标头与XMLHttpRequest一起沿着发送到上载服务器。
+                            headers: {
+                                RequestVerificationToken: abp.security.antiForgery.getToken()
+                            }
+                        }
+                    })
+                .then(editor => {
+                    editor.model.document.on('change:data',
+                        (evt, data) => {
+                            $('#cnt').val(editor.getData());
+                        });
+                editorCnt = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        $(function() {
+            $('#js-jx').click(function() {
+                var model = $('#js-form').serializeFormToObject();
+                abp.ui.setBusy();
+                abp.ajax({
+                    url: '/BlogAnalysis',
+                    data: JSON.stringify(model),
+                    dataType: 'Json'
+                }).done(function(data) {
+                    $('#title').val(data.title);
+                    $('#author').val(data.author);
+                    $('#time').val(data.time);
+                    $('#url').val(data.url);
+                    editorCnt.setData(data.cnt);
+                }).always(function() {
+                    abp.ui.clearBusy();
+                });
+            })
+            //自动解析保存
+            $('#js-jx-save').click(function () {
+                var model = $('#js-form').serializeFormToObject();
+                model.isAutoSave=true;
+                abp.ui.setBusy();
+                abp.ajax({
+                    url: '/BlogAnalysis',
+                    data: JSON.stringify(model),
+                    dataType: 'Json'
+                }).done(function(data) {
+                    if (data.title == '信息已存在') {
+                                        abp.notify.error("", '信息已存在！！', { positionClass: "toast-top-center" })
+                    }else if (data.title == '出错了') {
+                        abp.notify.error("", '出错了！！', { positionClass: "toast-top-center" })
+                    } else {
+                        
+                        $('#title').val(data.title);
+                        $('#author').val(data.author);
+                        $('#time').val(data.time);
+                        $('#url').val(data.url);
+                        editorCnt.setData(data.cnt);
+                        abp.notify.success("", '保存成功！！', { positionClass: "toast-top-right" })
+                    }
+                }).always(function() {
+                    abp.ui.clearBusy();
+                });
+            })
+            var index = 0;
+            var errList = [];
+            //自动解析保存2
+            $('#js-jx-save-2').click(function () {
+                getData();
+                    abp.notify.success("", '开始执行！！', { positionClass: "toast-top-right" })
+            })
+
+            function getData() {
+                var model = {};
+                model.urls = list[index];
+                model.types = 1;
+                model.isAutoSave = true;
+                    model.isBatch = true;
+                abp.ui.setBusy();
+                abp.ajax({
+                    url: '/BlogAnalysis',
+                    data: JSON.stringify(model),
+                    dataType: 'Json',
+                    async: false
+                }).done(function(data) {
+                    console.log(data);
+                    if (data.success) {
+
+                        abp.notify.success("", '保存成功！！', { positionClass: "toast-top-right" })
+                    } else {
+                        abp.notify.error("", '保存出错！！', { positionClass: "toast-top-right" })
+                        errList.push(list[index]);
+                    }
+                    index++;
+                    $('#js-jx-save-2 span').html(index);
+                    if (index == list.length - 1) {
+                        abp.message.info('操作成功!');
+                        console.log(errList);
+                    } else {
+                        setTimeout(getData, 300);
+                    }
+                }).always(function() {
+                    abp.ui.clearBusy();
+                });
+            }
+
+//            $('#js-jx-save-2').click(function () {
+//
+//                for (let i = 0; i < list.length; i++) {
+//                    var model = {};
+//                    model.urls = list[i];
+//                    model.types = 1;
+//                    model.isAutoSave = true;
+//                    abp.ui.setBusy();
+//                    abp.ajax({
+//                        url: '/BlogAnalysis',
+//                        data: JSON.stringify(model),
+//                        dataType: 'Json',
+//                        async: false
+//                    }).done(function (data) {
+//                        abp.notify.success("", '保存成功！！', { positionClass: "toast-top-right" })
+//                        $('#js-jx-save-2 span').html((i+1));
+//                    }).always(function () {
+//                        abp.ui.clearBusy();
+//                    });
+//                }
+//            })
+            $('#js-save').click(function () {
+                var model = $('#js-form2').serializeFormToObject();
+                model.IsReprint = true;
+                model.Tag = '';
+                model.Info = '';
+                model.Files = '';
+                model.Markdown = '';
+                model.BlogFiles = '';
+                console.log(model);
+
+                abp.ui.setBusy();
+                l.wInformations.information.create(model).done(function () {
+                    abp.message.info('操作成功!').done(function() {
+                        window.location.reload();
+                    });
+                }).always(function() {
+                    abp.ui.clearBusy();
+                });
+            })
+        })
+    </script>
+}

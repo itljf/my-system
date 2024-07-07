@@ -1,0 +1,69 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@using L.WInformations
+@model L.Web.Pages.BlogMgr.InfoModel
+@inject IPageLayout PageLayout
+@{
+    ViewBag.Title = "博客信息";
+    PageLayout.Content.MenuItemName = LPermissions.BlogMgr.Default;
+    var info = Model.info;
+}
+@section styles {
+    <link href="~/js/outline.js/outline.min.css" rel="stylesheet" />
+    <link href="~/lib/prism/themes/prism.min.css" rel="stylesheet" />
+}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">
+            @ViewBag.Title
+        </h5>
+        <div class="card-toolbar">
+            <a class="btn btn-facebook ms-2" href="javascript:;" onclick="window.history.back();">
+                <i class="fas fa-arrow-left"></i>
+                返回
+            </a>
+        </div>
+    </div>
+    <div class="card-body row">
+        <h1 class="text-center fs-1">@(info.Title)</h1>
+        <div class="text-center mt-2 mb-4 fs-4">
+            <span>类型：@(info.IsReprint?"转载":"原创")</span>
+            <span class="mx-1">|</span>
+            <span>作者：@(info.Author)</span>
+            <span class="mx-1">|</span>
+            <span>原文地址：<a href="@(info.Author)" target="_blank">前往</a></span>
+            <span class="mx-1">|</span>
+            <span>时间：@(info.Time.ToString("yyyy年M月d日"))</span>
+        </div>
+        <div class="text-center mt-2 mb-4 fs-4">
+            @foreach (var tag in Model.InfoTags)
+            {
+                <span class="mx-1"><i class="fas fa-tags text-primary me-1"></i>@(tag.Title)</span>
+            }
+        </div>
+        @if (!info.Info.IsNullOrWhiteSpace())
+        {
+            <div class="alert alert-info fs-4 px-20 blog-cnt" role="alert">
+                @Html.Raw(info.Info)
+            </div>
+        }
+        <div class="fs-4 px-20 blog-cnt">
+            @Html.Raw(info.Cnt)
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/js/outline.js/outline.min.js"></script>
+    <script src="~/lib/prism/prism.min.js"></script>
+    <script>
+        $(function() {
+            var outline = new Outline({
+                parentElement: $('#aside'),
+                articleElement: $('#article')
+            })
+        })
+    </script>
+}

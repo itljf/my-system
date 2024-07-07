@@ -1,0 +1,106 @@
+﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Table
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@inject IPageLayout PageLayout
+@model L.Web.Pages.BlogMgr.IndexModel
+@{
+    ViewBag.Title = "博客管理";
+    int index = 0;
+    PageLayout.Content.MenuItemName = LPermissions.BlogMgr.Default;
+}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">
+            <form class="mb-2 form-inline d-flex">
+                <input type="text" name="Name" class="form-control w-200px me-2" value="@(Model.input.Name)" />
+                <button type="submit" class="btn btn-primary me-2">搜索</button>
+                <a asp-page="./Index" class="btn btn-light-facebook me-2">重置</a>
+            </form>
+        </h5>
+        <div class="card-toolbar">
+            <a class="btn btn-primary ms-2" asp-page="./Edit" asp-route-id="0" asp-route-types="0">
+                <i class="fa fa-plus"></i>
+                新建博客信息
+            </a>
+            <a class="btn btn-primary ms-2" asp-page="./Edit" asp-route-id="0" asp-route-types="5">
+                <i class="fa fa-plus"></i>
+                新建博客信息MD
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        
+        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0 fs-5">
+            <tr>
+                <th>#</th>
+                <th>标题</th>
+                <th>来源</th>
+                <th>作者</th>
+                <th>标签</th>
+                <th>文单</th>
+                <th>时间</th>
+                <th class="text-center">操作</th>
+            </tr>
+            @foreach (var informationDto in Model.list)
+            {
+                var tagIdList = informationDto.TagItemIdList;
+                var tagList = Model.tagInfoList.Where(m => tagIdList.Contains(m.Id)).Select(m => m.Title).ToList();
+                index++;
+                <tr>
+                    <td>@(index)</td>
+                    <td>@informationDto.Title</td>
+                    <td>
+                        @if (informationDto.IsReprint)
+                        {
+                            <span>转载</span>
+                        }
+                        else
+                        {
+                            <span>原创</span>
+                        }
+                    </td>
+                    <td>@informationDto.Author</td>
+                    <td>@(string.Join("、", tagList))</td>
+                    <td>文单</td>
+                    <td>@informationDto.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary" href="/BlogMgr/Edit?id=@informationDto.Id">
+                            <i class="fa fa-edit"></i>
+                            编辑
+                        </a>
+                        <a href="javascript:;" class="btn btn-danger js-delete" data-id="@(informationDto.Id)" type="button"><i class="fas fa-trash-alt"></i>删除</a>
+                        <a class="btn btn-info" href="/BlogMgr/Info?id=@informationDto.Id"><i class="fas fa-eye"></i>查看</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="card-footer">
+        <abp-paginator model="Model.PagerModel" show-info="true"></abp-paginator>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".js-delete").click(function () {
+                var id = $(this).data("id");
+                abp.message.confirm("确定删除该信息吗？", function (isConfirmed) {
+                    if (isConfirmed) {
+                        abp.ui.setBusy();
+                        l.wInformations.information.delete(id).done(function () {
+                            abp.message.info('操作成功!').done(function ()
+                            {
+                                window.location.reload();
+                            });
+                        }).always(function (){
+                            abp.ui.clearBusy();
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

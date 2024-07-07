@@ -1,0 +1,18 @@
+﻿@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.Ui.Branding
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@section plugins_css {
+    @await RenderSectionAsync("plugins_css", false)
+}
+@section content_toolbar {
+    @await RenderSectionAsync("content_toolbar", false)
+}
+@section styles {
+    @await RenderSectionAsync("styles", false)
+}
+@section scripts {
+    @await RenderSectionAsync("scripts", false)
+}
+@RenderBody()

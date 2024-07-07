@@ -1,0 +1,136 @@
+﻿@page
+@using L.Permissions
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Pages.Shared.Components.AbpPageToolbar
+@using Volo.Abp.Identity.Web.Pages.Identity.Roles
+@model L.Web.Pages.Todo.IndexModel
+@inject IPageLayout PageLayout
+@{
+    ViewBag.Title = "待办";
+    var list0 = Model.list.Where(m => m.Mark == 0).ToList();//未开始
+    var list1 = Model.list.Where(m => m.Mark == 1).ToList();//进行中
+    var list2 = Model.list.Where(m => m.Mark == 2).ToList();//已完成
+    var list3 = Model.list.Where(m => m.Mark == 3).ToList();//已取消
+
+    PageLayout.Content.MenuItemName = LPermissions.Todo;
+}
+@section content_toolbar {
+    <a class="btn btn-primary js-edit" data-id="0" href="javascript:;">添加待办</a>
+}
+<abp-card class="h-100">
+    <abp-card-body>
+        <div class="row h-100">
+            <div class="col-3 overflow-y-auto">
+                <h2>未开始</h2>
+                @foreach (var item in list0)
+                {
+                    <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6 mb-4">
+                        <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+                            <div class="mb-3 mb-md-0 fw-semibold js-edit" data-id="@item.Id">
+                                <h4 class="text-gray-900 fw-bold">@(item.Title)</h4>
+                                @if (!item.Cnt.IsNullOrWhiteSpace())
+                                {
+                                    <div class="fs-6 text-gray-700 pe-7">@item.Cnt</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-3 overflow-y-auto">
+                <h2>进行中</h2>
+                @foreach (var item in list1)
+                {
+                    <div class="notice d-flex bg-warning rounded border-warning border border-dashed p-6 mb-4">
+                        <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+                            <div class="mb-3 mb-md-0 fw-semibold js-edit" data-id="@item.Id">
+                                <h4 class="text-gray-900 fw-bold">@(item.Title)</h4>
+                                @if (!item.Cnt.IsNullOrWhiteSpace())
+                                {
+                                    <div class="fs-6 text-gray-700 pe-7">@item.Cnt</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-3 overflow-y-auto">
+                <h2>已完成</h2>
+                @foreach (var item in list2)
+                {
+                    <div class="notice d-flex bg-light-success rounded border-success border border-dashed p-6 mb-4">
+                        <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+                            <div class="mb-3 mb-md-0 fw-semibold js-edit" data-id="@item.Id">
+                                <h4 class="text-gray-900 fw-bold">@(item.Title)</h4>
+                                @if (!item.Cnt.IsNullOrWhiteSpace())
+                                {
+                                    <div class="fs-6 text-gray-700 pe-7">@item.Cnt</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-3 overflow-y-auto">
+                <h2>已取消</h2>
+                @foreach (var item in list3)
+                {
+                    <div class="notice d-flex bg-light-dark border-dark rounded border border-dashed p-6 mb-4">
+                        <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+                            <div class="mb-3 mb-md-0 fw-semibold js-edit" data-id="@item.Id">
+                                <h4 class="text-gray-900 fw-bold">@(item.Title)</h4>
+                                @if (!item.Cnt.IsNullOrWhiteSpace())
+                                {
+                                    <div class="fs-6 text-gray-700 pe-7">@item.Cnt</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </abp-card-body>
+</abp-card>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        var _createModal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'Todo/Edit',
+            modalClass: "createUser"
+        });
+        _createModal.onResult(function () {
+            window.location.reload();
+        });
+        $(function () {
+            $("body").on('click',
+                '.js-edit',
+                function () {
+                    var id = $(this).data('id');
+                    _createModal.open({ id: id });
+                })
+            //删除
+            $("body").on('click',
+                '.js-delete',
+                function () {
+                    var id = $(this).data('id');
+                    var name = $(this).data('name');
+                    abp.message.confirm('', '确认删除【' + name + '】？', function (e) {
+                        abp.ui.setBusy();
+                        wP.wInfoGroups.infoGroup.delete(id).done(function () {
+                            abp.message.info('操作成功!').done(function () {
+                                window.location.reload();
+                            });
+                        }).always(function () {
+                            abp.ui.clearBusy();
+                        });
+                    })
+                })
+
+
+        })
+
+    </script>
+}

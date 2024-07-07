@@ -1,0 +1,47 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model L.Web.Pages.GroupMgr.SearchModel
+@{
+    Layout = null;
+    int index = 0;
+    var name = Request.Query["name"];
+}
+<form>
+    <abp-modal size="Large">
+    <abp-modal-header title="搜索"></abp-modal-header>
+    <abp-modal-body>
+        <div>
+            <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="博客名" name="name" aria-describedby="button-addon2" value="@(name)">
+                <button class="btn btn-google" type="button" id="button-addon2">搜索</button>
+            </div>
+            <div>
+                @foreach (var item in Model.informations)
+                {
+                    index++;
+                        <div class="d-flex align-items-center py-4 border-bottom">
+                            <div class="w-50px text-center fs-3">@index</div>
+                            <div class="flex-grow-1">
+                                <div class="fs-3">@(item.Title)</div>
+                                <div class="text-gray-700">作者：@(item.Author)<span class="mx-1"></span>时间：@item.Time.ToString("yyyy年MM月dd日")</div>
+                            </div>
+                            <div>
+                                @if (Model.info.Informations.Any(m => m.Id == item.Id))
+                                {
+                                    <button type="button" data-id="@(item.Id)" class="btn btn-info btn-sm">已选</button>
+                                }
+                                else
+                                {
+                                    <button type="button" data-id="@(item.Id)" class="btn btn-primary btn-sm js-select">选择</button>
+                                }
+                                
+                            </div>
+                        </div>
+                }
+            </div>
+        </div>
+    </abp-modal-body>
+    <abp-modal-footer buttons="@(AbpModalButtons.Cancel)"></abp-modal-footer>
+</abp-modal>
+</form>

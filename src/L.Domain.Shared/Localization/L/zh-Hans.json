@@ -1,0 +1,25 @@
+{
+  "culture": "zh-Hans",
+  "texts": {
+    "Menu:Home": "首页",
+    "Welcome": "欢迎",
+    "LongWelcomeMessage": "欢迎使用本应用程序。这是一个基于 ABP 框架的启动项目。更多信息，请访问 abp.io。",
+    "Menu:WP": "系统",
+    "Menu:Books": "图书",
+    "Menu:Books.Create": "创建图书",
+    "Menu:Books.Edit": "编辑图书",
+    "Menu:Books.Delete": "删除图书",
+
+    "L.Blogs": "博客列表",
+    "L.BlogMgr": "博客管理",
+    "L.TagMgr": "标签管理",
+    "L.GroupMgr": "文单管理",
+    "L.NavigationMgr": "导航管理",
+    "L.Nav": "导航",
+    "L.Settings": "系统设置",
+
+    "L.SystemName": "网站名",
+    "L.BlogAnalysis": "博客解析",
+    "L.Todo": "待办"
+  }
+}

@@ -1,0 +1,652 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>L.Web</RootNamespace>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <UserSecretsId>L-4681b4fd-151f-4221-84a4-929d86723e4c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="Pages\NavigationMgr\Edit1.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="Pages\Account\AccessDenied.cshtml" />
+    <None Include="Pages\Account\ForgotPassword.cshtml" />
+    <None Include="Pages\Account\Login.cshtml" />
+    <None Include="Pages\Account\Manage.cshtml" />
+    <None Include="Pages\Account\Register.cshtml" />
+    <None Include="Pages\Account\ResetPassword.cshtml" />
+    <None Include="Pages\Account\ResetPasswordConfirmation.cshtml" />
+    <None Include="Pages\BlogMgr\Edit.cshtml" />
+    <None Include="Pages\BlogMgr\Index.cshtml" />
+    <None Include="Pages\BlogMgr\Info.cshtml" />
+    <None Include="Pages\Blog\Index.cshtml" />
+    <None Include="Pages\Books\Create.cshtml" />
+    <None Include="Pages\Books\Download.cshtml" />
+    <None Include="Pages\Books\Edit.cshtml" />
+    <None Include="Pages\Books\Index.cshtml" />
+    <None Include="Pages\Files\ckeditor.cshtml" />
+    <None Include="Pages\Files\editormd.cshtml" />
+    <None Include="Pages\GroupMgr\Edit.cshtml" />
+    <None Include="Pages\GroupMgr\Index.cshtml" />
+    <None Include="Pages\GroupMgr\Info.cshtml" />
+    <None Include="Pages\GroupMgr\Search.cshtml" />
+    <None Include="Pages\Identity\Roles\CreateModal.cshtml" />
+    <None Include="Pages\Identity\Roles\EditModal.cshtml" />
+    <None Include="Pages\Identity\Roles\Index.cshtml" />
+    <None Include="Pages\Identity\Users\CreateModal.cshtml" />
+    <None Include="Pages\Identity\Users\EditModal.cshtml" />
+    <None Include="Pages\Identity\Users\Index.cshtml" />
+    <None Include="Pages\Identity\_ViewImports.cshtml" />
+    <None Include="Pages\NavigationMgr\Edit1.cshtml" />
+    <None Include="Pages\SettingManagement\Index.cshtml" />
+    <None Include="Pages\TagMgr\Edit.cshtml" />
+    <None Include="Pages\TagMgr\Index.cshtml" />
+    <None Include="Pages\TagMgr\Info.cshtml" />
+    <None Include="Themes\Basic\Components\Brand\Default.cshtml" />
+    <None Include="Themes\Basic\Components\ContentTitle\Default.cshtml" />
+    <None Include="Themes\Basic\Components\editor\ckeditor.cshtml" />
+    <None Include="Themes\Basic\Components\MainNavbar\Default.cshtml" />
+    <None Include="Themes\Basic\Components\Menu\Default.cshtml" />
+    <None Include="Themes\Basic\Components\Menu\_MenuItem.cshtml" />
+    <None Include="Themes\Basic\Components\PageAlerts\Default.cshtml" />
+    <None Include="Themes\Basic\Components\Toolbar\Default.cshtml" />
+    <None Include="Themes\Basic\Components\Toolbar\LanguageSwitch\Default.cshtml" />
+    <None Include="Themes\Basic\Components\Toolbar\UserMenu\Default.cshtml" />
+    <None Include="Themes\Basic\Components\Web\SidebarMenu.cshtml" />
+    <None Include="Themes\Basic\Components\Web\UserInfo.cshtml" />
+    <None Include="Themes\Basic\Components\Web\_MenuItem.cshtml" />
+    <None Include="Themes\Basic\Components\Web\_MenuItemIcon.cshtml" />
+    <None Include="Themes\Basic\Layouts\Account.cshtml" />
+    <None Include="Themes\Basic\Layouts\Application.cshtml" />
+    <None Include="Themes\Basic\Layouts\Empty.cshtml" />
+    <None Include="Themes\Basic\_ViewImports.cshtml" />
+    <None Include="wwwroot\images\login.svg" />
+    <None Include="wwwroot\images\logo\logo.svg" />
+    <None Include="wwwroot\images\logo\logo2.svg" />
+    <None Include="wwwroot\js\ckeditor\ckeditor.js" />
+    <None Include="wwwroot\js\ckeditor\ckeditor.js.map" />
+    <None Include="wwwroot\js\ckeditor\translations\af.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ar.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ast.js" />
+    <None Include="wwwroot\js\ckeditor\translations\az.js" />
+    <None Include="wwwroot\js\ckeditor\translations\bg.js" />
+    <None Include="wwwroot\js\ckeditor\translations\bn.js" />
+    <None Include="wwwroot\js\ckeditor\translations\bs.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ca.js" />
+    <None Include="wwwroot\js\ckeditor\translations\cs.js" />
+    <None Include="wwwroot\js\ckeditor\translations\da.js" />
+    <None Include="wwwroot\js\ckeditor\translations\de-ch.js" />
+    <None Include="wwwroot\js\ckeditor\translations\de.js" />
+    <None Include="wwwroot\js\ckeditor\translations\el.js" />
+    <None Include="wwwroot\js\ckeditor\translations\en-au.js" />
+    <None Include="wwwroot\js\ckeditor\translations\en-gb.js" />
+    <None Include="wwwroot\js\ckeditor\translations\en.js" />
+    <None Include="wwwroot\js\ckeditor\translations\eo.js" />
+    <None Include="wwwroot\js\ckeditor\translations\es-co.js" />
+    <None Include="wwwroot\js\ckeditor\translations\es.js" />
+    <None Include="wwwroot\js\ckeditor\translations\et.js" />
+    <None Include="wwwroot\js\ckeditor\translations\eu.js" />
+    <None Include="wwwroot\js\ckeditor\translations\fa.js" />
+    <None Include="wwwroot\js\ckeditor\translations\fi.js" />
+    <None Include="wwwroot\js\ckeditor\translations\fr.js" />
+    <None Include="wwwroot\js\ckeditor\translations\gl.js" />
+    <None Include="wwwroot\js\ckeditor\translations\gu.js" />
+    <None Include="wwwroot\js\ckeditor\translations\he.js" />
+    <None Include="wwwroot\js\ckeditor\translations\hi.js" />
+    <None Include="wwwroot\js\ckeditor\translations\hr.js" />
+    <None Include="wwwroot\js\ckeditor\translations\hu.js" />
+    <None Include="wwwroot\js\ckeditor\translations\hy.js" />
+    <None Include="wwwroot\js\ckeditor\translations\id.js" />
+    <None Include="wwwroot\js\ckeditor\translations\it.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ja.js" />
+    <None Include="wwwroot\js\ckeditor\translations\jv.js" />
+    <None Include="wwwroot\js\ckeditor\translations\kk.js" />
+    <None Include="wwwroot\js\ckeditor\translations\km.js" />
+    <None Include="wwwroot\js\ckeditor\translations\kn.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ko.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ku.js" />
+    <None Include="wwwroot\js\ckeditor\translations\lt.js" />
+    <None Include="wwwroot\js\ckeditor\translations\lv.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ms.js" />
+    <None Include="wwwroot\js\ckeditor\translations\nb.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ne.js" />
+    <None Include="wwwroot\js\ckeditor\translations\nl.js" />
+    <None Include="wwwroot\js\ckeditor\translations\no.js" />
+    <None Include="wwwroot\js\ckeditor\translations\oc.js" />
+    <None Include="wwwroot\js\ckeditor\translations\pl.js" />
+    <None Include="wwwroot\js\ckeditor\translations\pt-br.js" />
+    <None Include="wwwroot\js\ckeditor\translations\pt.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ro.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ru.js" />
+    <None Include="wwwroot\js\ckeditor\translations\si.js" />
+    <None Include="wwwroot\js\ckeditor\translations\sk.js" />
+    <None Include="wwwroot\js\ckeditor\translations\sl.js" />
+    <None Include="wwwroot\js\ckeditor\translations\sq.js" />
+    <None Include="wwwroot\js\ckeditor\translations\sr-latn.js" />
+    <None Include="wwwroot\js\ckeditor\translations\sr.js" />
+    <None Include="wwwroot\js\ckeditor\translations\sv.js" />
+    <None Include="wwwroot\js\ckeditor\translations\th.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ti.js" />
+    <None Include="wwwroot\js\ckeditor\translations\tk.js" />
+    <None Include="wwwroot\js\ckeditor\translations\tr.js" />
+    <None Include="wwwroot\js\ckeditor\translations\tt.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ug.js" />
+    <None Include="wwwroot\js\ckeditor\translations\uk.js" />
+    <None Include="wwwroot\js\ckeditor\translations\ur.js" />
+    <None Include="wwwroot\js\ckeditor\translations\uz.js" />
+    <None Include="wwwroot\js\ckeditor\translations\vi.js" />
+    <None Include="wwwroot\js\ckeditor\translations\zh.js" />
+    <None Include="wwwroot\js\editor.md\.gitignore" />
+    <None Include="wwwroot\js\editor.md\.jshintrc" />
+    <None Include="wwwroot\js\editor.md\BUGS.md" />
+    <None Include="wwwroot\js\editor.md\CHANGE.md" />
+    <None Include="wwwroot\js\editor.md\docs\fonts\OpenSans-Bold-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\docs\fonts\OpenSans-BoldItalic-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\docs\fonts\OpenSans-Italic-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\docs\fonts\OpenSans-Light-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\docs\fonts\OpenSans-LightItalic-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\docs\fonts\OpenSans-Regular-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\docs\scripts\linenumber.js" />
+    <None Include="wwwroot\js\editor.md\docs\scripts\prettify\lang-css.js" />
+    <None Include="wwwroot\js\editor.md\docs\scripts\prettify\prettify.js" />
+    <None Include="wwwroot\js\editor.md\editormd.amd.js" />
+    <None Include="wwwroot\js\editor.md\editormd.amd.min.js" />
+    <None Include="wwwroot\js\editor.md\editormd.js" />
+    <None Include="wwwroot\js\editor.md\editormd.min.js" />
+    <None Include="wwwroot\js\editor.md\examples\js\jquery.min.js" />
+    <None Include="wwwroot\js\editor.md\examples\js\require.min.js" />
+    <None Include="wwwroot\js\editor.md\examples\js\sea.js" />
+    <None Include="wwwroot\js\editor.md\examples\js\seajs-main.js" />
+    <None Include="wwwroot\js\editor.md\examples\js\zepto.min.js" />
+    <None Include="wwwroot\js\editor.md\examples\test.md" />
+    <None Include="wwwroot\js\editor.md\fonts\editormd-logo.svg" />
+    <None Include="wwwroot\js\editor.md\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\js\editor.md\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\js\editor.md\Gulpfile.js" />
+    <None Include="wwwroot\js\editor.md\languages\en.js" />
+    <None Include="wwwroot\js\editor.md\languages\zh-tw.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addons.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\comment\comment.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\comment\continuecomment.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\dialog\dialog.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\display\fullscreen.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\display\panel.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\display\placeholder.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\display\rulers.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\edit\closebrackets.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\edit\closetag.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\edit\continuelist.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\edit\matchbrackets.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\edit\matchtags.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\edit\trailingspace.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\brace-fold.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\comment-fold.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\foldcode.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\foldgutter.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\indent-fold.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\markdown-fold.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\fold\xml-fold.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\anyword-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\css-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\html-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\javascript-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\show-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\sql-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\hint\xml-hint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\lint\coffeescript-lint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\lint\css-lint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\lint\javascript-lint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\lint\json-lint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\lint\lint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\lint\yaml-lint.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\merge\merge.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\mode\loadmode.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\mode\multiplex.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\mode\multiplex_test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\mode\overlay.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\mode\simple.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\runmode\colorize.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\runmode\runmode-standalone.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\runmode\runmode.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\runmode\runmode.node.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\scroll\annotatescrollbar.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\scroll\scrollpastend.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\scroll\simplescrollbars.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\search\match-highlighter.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\search\matchesonscrollbar.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\search\search.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\search\searchcursor.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\selection\active-line.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\selection\mark-selection.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\selection\selection-pointer.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\tern\tern.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\tern\worker.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\addon\wrap\hardwrap.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\AUTHORS" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\codemirror.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\lib\codemirror.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\LICENSE" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\modes.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\apl\apl.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\asterisk\asterisk.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\clike\clike.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\clojure\clojure.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\cobol\cobol.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\coffeescript\coffeescript.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\commonlisp\commonlisp.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\css\css.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\css\less_test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\css\scss_test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\css\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\cypher\cypher.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\dart\dart.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\diff\diff.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\django\django.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\dockerfile\dockerfile.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\dtd\dtd.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\dylan\dylan.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\d\d.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\ebnf\ebnf.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\ecl\ecl.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\eiffel\eiffel.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\erlang\erlang.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\forth\forth.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\fortran\fortran.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\gas\gas.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\gfm\gfm.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\gfm\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\gherkin\gherkin.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\go\go.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\groovy\groovy.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\haml\haml.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\haml\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\haskell\haskell.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\haxe\haxe.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\htmlembedded\htmlembedded.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\htmlmixed\htmlmixed.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\http\http.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\idl\idl.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\jade\jade.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\javascript\javascript.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\javascript\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\jinja2\jinja2.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\julia\julia.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\kotlin\kotlin.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\livescript\livescript.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\lua\lua.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\markdown\markdown.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\markdown\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\meta.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\mirc\mirc.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\mllike\mllike.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\modelica\modelica.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\nginx\nginx.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\ntriples\ntriples.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\octave\octave.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\pascal\pascal.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\pegjs\pegjs.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\perl\perl.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\php\php.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\php\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\pig\pig.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\properties\properties.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\puppet\puppet.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\python\python.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\q\q.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\rpm\rpm.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\rst\rst.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\ruby\ruby.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\ruby\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\rust\rust.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\r\r.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\sass\sass.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\scheme\scheme.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\shell\shell.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\shell\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\sieve\sieve.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\slim\slim.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\slim\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\smalltalk\smalltalk.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\smartymixed\smartymixed.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\smarty\smarty.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\solr\solr.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\soy\soy.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\sparql\sparql.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\spreadsheet\spreadsheet.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\sql\sql.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\stex\stex.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\stex\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\stylus\stylus.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\tcl\tcl.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\textile\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\textile\textile.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\tiddlywiki\tiddlywiki.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\tiki\tiki.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\toml\toml.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\tornado\tornado.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\turtle\turtle.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\vbscript\vbscript.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\vb\vb.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\velocity\velocity.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\verilog\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\verilog\verilog.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\xml\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\xml\xml.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\xquery\test.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\xquery\xquery.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\yaml\yaml.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\mode\z80\z80.js" />
+    <None Include="wwwroot\js\editor.md\lib\codemirror\README.md" />
+    <None Include="wwwroot\js\editor.md\lib\flowchart.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\flowchart1.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\jquery.flowchart.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\marked.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\marked1.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\prettify.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\prettify1.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\raphael.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\sequence-diagram.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\underscore.min.js" />
+    <None Include="wwwroot\js\editor.md\lib\underscore1.min.js" />
+    <None Include="wwwroot\js\editor.md\LICENSE" />
+    <None Include="wwwroot\js\editor.md\plugins\code-block-dialog\code-block-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\emoji-dialog\emoji-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\goto-line-dialog\goto-line-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\help-dialog\help-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\help-dialog\help.md" />
+    <None Include="wwwroot\js\editor.md\plugins\html-entities-dialog\html-entities-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\image-dialog\image-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\image-update\image-update.js" />
+    <None Include="wwwroot\js\editor.md\plugins\link-dialog\link-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\plugin-template.js" />
+    <None Include="wwwroot\js\editor.md\plugins\preformatted-text-dialog\preformatted-text-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\reference-link-dialog\reference-link-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\table-dialog\table-dialog.js" />
+    <None Include="wwwroot\js\editor.md\plugins\test-plugin\test-plugin.js" />
+    <None Include="wwwroot\js\editor.md\README.md" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.codemirror.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.dialog.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.form.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.grid.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.logo.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.menu.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.preview.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.preview.themes.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.tab.scss" />
+    <None Include="wwwroot\js\editor.md\scss\editormd.themes.scss" />
+    <None Include="wwwroot\js\editor.md\scss\font-awesome.scss" />
+    <None Include="wwwroot\js\editor.md\scss\github-markdown.scss" />
+    <None Include="wwwroot\js\editor.md\scss\lib\prefixes.scss" />
+    <None Include="wwwroot\js\editor.md\scss\lib\variables.scss" />
+    <None Include="wwwroot\js\editor.md\scss\prettify.scss" />
+    <None Include="wwwroot\js\editor.md\src\editormd.js" />
+    <None Include="wwwroot\js\editor.md\tests\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\editor.md\tests\js\searchbox.js" />
+    <None Include="wwwroot\js\editor.md\tests\qunit\qunit-1.16.0.js" />
+    <None Include="wwwroot\themes\basic\layout.js" />
+    <None Include="wwwroot\themes\js\custom\account\api-keys\api-keys.js" />
+    <None Include="wwwroot\themes\js\custom\account\billing\general.js" />
+    <None Include="wwwroot\themes\js\custom\account\orders\classic.js" />
+    <None Include="wwwroot\themes\js\custom\account\referrals\referral-program.js" />
+    <None Include="wwwroot\themes\js\custom\account\security\license-usage.js" />
+    <None Include="wwwroot\themes\js\custom\account\security\security-summary.js" />
+    <None Include="wwwroot\themes\js\custom\account\settings\deactivate-account.js" />
+    <None Include="wwwroot\themes\js\custom\account\settings\overview.js" />
+    <None Include="wwwroot\themes\js\custom\account\settings\profile-details.js" />
+    <None Include="wwwroot\themes\js\custom\account\settings\signin-methods.js" />
+    <None Include="wwwroot\themes\js\custom\apps\calendar\calendar.js" />
+    <None Include="wwwroot\themes\js\custom\apps\chat\chat.js" />
+    <None Include="wwwroot\themes\js\custom\apps\contacts\edit-contact.js" />
+    <None Include="wwwroot\themes\js\custom\apps\contacts\view-contact.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\add.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\list\export.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\list\list.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\update.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\view\add-payment.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\view\adjust-balance.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\view\invoices.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\view\payment-method.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\view\payment-table.js" />
+    <None Include="wwwroot\themes\js\custom\apps\customers\view\statement.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\catalog\categories.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\catalog\products.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\catalog\save-category.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\catalog\save-product.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\add-address.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\add-auth-app.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\add-one-time-password.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\payment-method.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\transaction-history.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\update-address.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\update-password.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\update-phone.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\details\update-profile.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\listing\add.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\listing\export.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\customers\listing\listing.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\reports\customer-orders\customer-orders.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\reports\returns\returns.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\reports\sales\sales.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\reports\shipping\shipping.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\reports\views\views.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\sales\listing.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\sales\save-order.js" />
+    <None Include="wwwroot\themes\js\custom\apps\ecommerce\settings\settings.js" />
+    <None Include="wwwroot\themes\js\custom\apps\file-manager\list.js" />
+    <None Include="wwwroot\themes\js\custom\apps\file-manager\settings.js" />
+    <None Include="wwwroot\themes\js\custom\apps\inbox\compose.js" />
+    <None Include="wwwroot\themes\js\custom\apps\inbox\listing.js" />
+    <None Include="wwwroot\themes\js\custom\apps\inbox\reply.js" />
+    <None Include="wwwroot\themes\js\custom\apps\invoices\create.js" />
+    <None Include="wwwroot\themes\js\custom\apps\projects\list\list.js" />
+    <None Include="wwwroot\themes\js\custom\apps\projects\project\project.js" />
+    <None Include="wwwroot\themes\js\custom\apps\projects\settings\settings.js" />
+    <None Include="wwwroot\themes\js\custom\apps\projects\targets\targets.js" />
+    <None Include="wwwroot\themes\js\custom\apps\projects\users\users.js" />
+    <None Include="wwwroot\themes\js\custom\apps\subscriptions\add\advanced.js" />
+    <None Include="wwwroot\themes\js\custom\apps\subscriptions\add\customer-select.js" />
+    <None Include="wwwroot\themes\js\custom\apps\subscriptions\add\products.js" />
+    <None Include="wwwroot\themes\js\custom\apps\subscriptions\list\export.js" />
+    <None Include="wwwroot\themes\js\custom\apps\subscriptions\list\list.js" />
+    <None Include="wwwroot\themes\js\custom\apps\support-center\general.js" />
+    <None Include="wwwroot\themes\js\custom\apps\support-center\tickets\create.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\permissions\add-permission.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\permissions\list.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\permissions\update-permission.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\roles\list\add.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\roles\list\update-role.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\roles\view\update-role.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\roles\view\view.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\list\add.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\list\export-users.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\list\table.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\add-auth-app.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\add-one-time-password.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\add-schedule.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\add-task.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\update-details.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\update-email.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\update-password.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\update-role.js" />
+    <None Include="wwwroot\themes\js\custom\apps\user-management\users\view\view.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\reset-password\new-password.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\reset-password\reset-password.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\sign-in\general.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\sign-in\i18n.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\sign-in\two-factor.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\sign-up\coming-soon.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\sign-up\free-trial.js" />
+    <None Include="wwwroot\themes\js\custom\authentication\sign-up\general.js" />
+    <None Include="wwwroot\themes\js\custom\landing.js" />
+    <None Include="wwwroot\themes\js\custom\pages\careers\apply.js" />
+    <None Include="wwwroot\themes\js\custom\pages\general\contact.js" />
+    <None Include="wwwroot\themes\js\custom\pages\general\pos.js" />
+    <None Include="wwwroot\themes\js\custom\pages\pricing\general.js" />
+    <None Include="wwwroot\themes\js\custom\pages\social\feeds.js" />
+    <None Include="wwwroot\themes\js\custom\pages\user-profile\general.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\bidding.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-account.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-api-key.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-app.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-campaign.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\budget.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\complete.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\files.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\main.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\settings.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\targets.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\team.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\create-project\type.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\new-address.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\new-card.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\new-target.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\offer-a-deal\complete.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\offer-a-deal\details.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\offer-a-deal\finance.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\offer-a-deal\main.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\offer-a-deal\type.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\select-location.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\share-earn.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\top-up-wallet.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\two-factor-authentication.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\upgrade-plan.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\modals\users-search.js" />
+    <None Include="wwwroot\themes\js\custom\utilities\search\horizontal.js" />
+    <None Include="wwwroot\themes\js\custom\widgets.js" />
+    <None Include="wwwroot\themes\js\scripts.bundle.js" />
+    <None Include="wwwroot\themes\js\widgets.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\ckeditor\ckeditor-balloon-block.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\ckeditor\ckeditor-balloon.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\ckeditor\ckeditor-classic.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\ckeditor\ckeditor-document.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\ckeditor\ckeditor-inline.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\cookiealert\cookiealert.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\cropper\cropper.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\datatables\datatables.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\draggable\draggable.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\flotcharts\flotcharts.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\formrepeater\formrepeater.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\fslightbox\fslightbox.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\fullcalendar\fullcalendar.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\jkanban\jkanban.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\jstree\jstree.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\leaflet\leaflet.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\prismjs\prismjs.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\tinymce\tinymce.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\typedjs\typedjs.bundle.js" />
+    <None Include="wwwroot\themes\plugins\custom\vis-timeline\vis-timeline.bundle.js" />
+    <None Include="wwwroot\themes\plugins\global\fonts\%40fortawesome\fa-brands-400.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\%40fortawesome\fa-regular-400.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\%40fortawesome\fa-solid-900.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\%40fortawesome\fa-v4compatibility.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\bootstrap-icons\bootstrap-icons.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\keenicons\keenicons-duotone.svg" />
+    <None Include="wwwroot\themes\plugins\global\fonts\keenicons\keenicons-outline.svg" />
+    <None Include="wwwroot\themes\plugins\global\fonts\keenicons\keenicons-solid.svg" />
+    <None Include="wwwroot\themes\plugins\global\fonts\line-awesome\la-brands-400.svg" />
+    <None Include="wwwroot\themes\plugins\global\fonts\line-awesome\la-brands-400.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\line-awesome\la-regular-400.svg" />
+    <None Include="wwwroot\themes\plugins\global\fonts\line-awesome\la-regular-400.woff2" />
+    <None Include="wwwroot\themes\plugins\global\fonts\line-awesome\la-solid-900.svg" />
+    <None Include="wwwroot\themes\plugins\global\fonts\line-awesome\la-solid-900.woff2" />
+    <None Include="wwwroot\themes\plugins\global\plugins.bundle.js" />
+    <None Include="wwwroot\themes\plugins\global\sourcemaps\tiny-slider.css.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pages\**\*.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Pages\**\*.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('./openiddict.pfx')">
+    <None Remove="openiddict.pfx" />
+    <EmbeddedResource Include="openiddict.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="4.0.0" />
+    <PackageReference Include="Flurl.Http" Version="4.0.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="8.1.4" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\L.Application\L.Application.csproj" />
+    <ProjectReference Include="..\L.HttpApi\L.HttpApi.csproj" />
+    <ProjectReference Include="..\L.EntityFrameworkCore\L.EntityFrameworkCore.csproj" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Web" Version="8.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\editor.md\Net\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\NavigationMgr\Edit1.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\NavigationMgr\Edit1.cshtml" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
+</Project>

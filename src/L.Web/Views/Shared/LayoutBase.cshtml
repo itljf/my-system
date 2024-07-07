@@ -1,0 +1,129 @@
+﻿@using System.Globalization
+@using L.Settings
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.PageAlerts
+@using Volo.Abp.SettingManagement
+@inject ISettingManager settingManager
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentCulture.Name">
+<head>
+    <title>
+        @(ViewBag.Title) - @(await settingManager.GetOrNullGlobalAsync(LSettings.SystemName))
+    </title>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @await RenderSectionAsync("plugins_css", false)
+    <abp-style-bundle>
+        <abp-style src="/themes/plugins/global/plugins.bundle.css" />
+        <abp-style src="/themes/css/style.bundle.css" />
+    
+        <abp-style src="/libs/abp/core/abp.css" />
+        <abp-style src="/libs/@@fortawesome/fontawesome-free/css/all.css" />
+        <abp-style src="/libs/toastr/toastr.min.css" />
+        <abp-style src="/libs/select2/css/select2.min.css" />
+        <abp-style src="/libs/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" />
+        @* <abp-style src="/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" /> *@
+        @* <abp-style src="/libs/bootstrap-daterangepicker/daterangepicker.css" /> *@
+        @* <abp-style src="/libs/abp/aspnetcore-mvc-ui-theme-shared/date-range-picker/date-range-picker-styles.css" /> *@
+        @* <abp-style src="/themes/basic/layout.css" /> *@
+        <abp-style src="/global-styles.css" />
+    </abp-style-bundle>
+    <style>
+        
+    </style>
+    @await RenderSectionAsync("styles", false)
+</head>
+<body id="kt_app_body" data-kt-app-header-fixed="true" data-kt-app-header-fixed-mobile="true"
+      data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
+      data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true"
+      data-kt-app-toolbar-enabled="true" data-kt-app-aside-enabled="true" data-kt-app-aside-fixed="true"
+      data-kt-app-aside-push-toolbar="true" data-kt-app-aside-push-footer="true"
+      class="app-default" style="background-color: #E8EAF3;">
+<div class="d-none">
+    @await RenderSectionAsync("content_toolbar", false)
+</div>
+    
+@RenderBody()
+<abp-script-bundle>
+        <abp-script src="/themes/plugins/global/plugins.bundle.js" />
+        <abp-script src="/themes/js/scripts.bundle.js" />
+        <abp-script src="/themes/js/widgets.bundle.js" />
+        <abp-script src="/themes/js/custom/widgets.js" />
+        <abp-script src="/themes/js/custom/apps/chat/chat.js" />
+        <abp-script src="/themes/js/custom/utilities/modals/upgrade-plan.js" />
+        <abp-script src="/themes/js/custom/utilities/modals/create-account.js" />
+        <abp-script src="/themes/js/custom/utilities/modals/create-app.js" />
+        <abp-script src="/themes/js/custom/utilities/modals/users-search.js" />
+
+        <abp-script src="/libs/abp/core/abp.js" />
+
+        <abp-script src="/libs/abp/utils/abp-utils.umd.min.js" />
+        @* <abp-script src="/libs/jquery/jquery.js" /> *@
+        <abp-script src="/libs/abp/jquery/abp.jquery.js" />
+        <abp-script src="/libs/lodash/lodash.min.js" />
+        <abp-script src="/libs/jquery-validation/jquery.validate.js" />
+        <abp-script src="/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" />
+        <abp-script src="/libs/jquery-form/jquery.form.min.js" />
+        @* <abp-script src="/libs/select2/js/select2.min.js" /> *@
+        <abp-script src="/libs/sweetalert2/sweetalert2.all.min.js" />
+        <abp-script src="/libs/toastr/toastr.min.js" />
+        <abp-script src="/libs/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js" />
+        <abp-script src="/libs/luxon/luxon.min.js" />
+        <abp-script src="/libs/abp/luxon/abp.luxon.js" />
+        <abp-script src="/libs/timeago/jquery.timeago.js" />
+        @* <abp-script src="/libs/bootstrap-datepicker/bootstrap-datepicker.min.js" /> *@
+        @* <abp-script src="/libs/bootstrap-daterangepicker/daterangepicker.js" /> *@
+        <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/ui-extensions.js" />
+        <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/jquery/jquery-extensions.js" />
+        <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/jquery-form/jquery-form-extensions.js" />
+        @* <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/jquery/widget-manager.js" /> *@
+        @* <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/bootstrap/dom-event-handlers.js" /> *@
+        <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/bootstrap/modal-manager.js" />
+        @* <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/datatables/datatables-extensions.js" /> *@
+        <abp-script src="/libs/abp/abp-sweetalert2.js" />
+        <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/toastr/abp-toastr.js" />
+        @* <abp-script src="/libs/abp/aspnetcore-mvc-ui-theme-shared/date-range-picker/date-range-picker-extensions.js" /> *@
+        @* <abp-script src="/libs/abp/tenant-switch.js" /> *@
+        @* <abp-script src="/themes/basic/layout.js" /> *@
+        <abp-script src="/libs/jquery-validation/localization/messages_zh.js" />
+        <abp-script src="/libs/timeago/locales/jquery.timeago.zh-CN.js" />
+        @* <abp-script src="/libs/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js" /> *@
+        @* <abp-script src="/libs/moment/locale/zh-cn.js" /> *@
+        <abp-script src="/js/laydate/laydate.js" />
+</abp-script-bundle>
+
+
+
+    <script src="~/Abp/ApplicationLocalizationScript?cultureName=@CultureInfo.CurrentUICulture.Name"></script>
+@* <script src="/Abp/ApplicationConfigurationScript"></script> *@
+@* <script src="/Abp/ServiceProxyScript"></script> *@
+
+@* <script src="/client-proxies/identity-proxy.js?_v=638529997840000000"></script> *@
+@* <script src="/Pages/AbpPermissionManagement/permission-management-modal.js?_v=638511824680000000"></script> *@
+@* <script src="/Pages/identity/roles/index.js?_v=638511826480000000"></script> *@
+
+
+
+
+@* <script src="~/libs/abp/luxon/abp.luxon.js"></script> *@
+<!--end::Custom Javascript-->
+@await RenderSectionAsync("scripts", false)
+<script>
+    $(function() {
+            laydate.render({
+                elem: '.ldate'
+            });
+    })
+</script>
+</body>
+
+</html>

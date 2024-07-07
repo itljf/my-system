@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model L.Web.Pages.TagMgr.EditModel
+@{
+    Layout = null;
+}
+
+<form method="post" asp-page="/TagMgr/Edit">
+    <abp-modal>
+        <abp-modal-header title="编辑标签"></abp-modal-header>
+        <abp-modal-body>
+            <input type="hidden" asp-for="tag.Id" />
+            <div class="form-group row mb-6">
+                <div class="col-2 col-form-label text-right">标题：</div>
+                <div class="col-10">
+                    <input class="form-control" asp-for="tag.Title" />
+                </div>
+            </div>
+            <div class="form-group row mb-6">
+                <div class="col-2 col-form-label text-right">备注：</div>
+                <div class="col-10">
+                    <textarea class="form-control" rows="3" asp-for="tag.Cnt"></textarea>
+                </div>
+            </div>
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

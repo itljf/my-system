@@ -1,0 +1,127 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@using L.WInformations
+@model L.Web.Pages.GroupMgr.InfoModel
+@inject IPageLayout PageLayout
+@{
+    var info = Model.info;
+    ViewBag.Title = "“" + info .Title+ "”关联的博客";
+    PageLayout.Content.MenuItemName = LPermissions.GroupMgr.Default;
+    int index = 0;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">
+            @ViewBag.Title
+        </h5>
+        <div class="card-toolbar">
+            <a class="btn btn-dark me-2" asp-page="./Index">
+                <i class="fas fa-arrow-left"></i>
+                返回
+            </a>
+            <a class="btn btn-primary" href="javascript:;" id="js-search">
+                <i class="fas fa-plus"></i>
+                添加
+            </a>
+        </div>
+    </div>
+    <div class="card-body row">
+        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+            <tr>
+                <th>#</th>
+                <th>标题</th>
+                <th>作者</th>
+                <th>标签</th>
+                <th>时间</th>
+                <th class="text-center">操作</th>
+            </tr>
+            <tbody>
+            @foreach (var item in info.Informations)
+            {
+                <tr>
+                    <td>@(++index)</td>
+                    <td>@item.Title</td>
+                    <td>@item.Author</td>
+                    <td>@(string.Join("，",Model.tagList.Where(m=>item.TagItemIdList.Contains(m.Id)).Select(m=>m.Title).ToList()))</td>
+                    <td>@(item.Time.ToString("yyyy年M月d日"))</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary" asp-page="/BlogMgr/Info" asp-route-id="@item.Id">查看</a>
+                            <a class="btn btn-primary js-delete" data-id="@(item.InfoGroupItemId)">删除</a>
+                    </td>
+                </tr>
+            }
+            <tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        var _createModal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'GroupMgr/Search',
+            modalClass: "createUser"
+        });
+        _createModal.onClose(function () {
+            window.location.reload();
+        });
+        var groupId = @(Model.info.Id);
+        $(function () {
+            $("#js-search").click(function () {
+                _createModal.open({ id: @(Model.info.Id)});
+            });
+            $('body').on('click',
+                '#button-addon2',
+                function () {
+                    var model = _createModal.getForm().serializeFormToObject();
+                    if (model.name == '') {
+                        abp.message.info('请输入关键字');
+                        return false;
+                    }
+                    model.id = @(Model.info.Id);
+                    _createModal.open(model);
+                })
+            //选中
+            $('body').on('click',
+                '.js-select',
+                function () {
+                    var that = $(this);
+                    var id = that.data('id');
+                    var model={
+                        BlogId: id,
+                        InfoGroupId: groupId
+                    }
+                    abp.ui.setBusy();
+                    l.wInfoGroups.infoGroup.setGroutInfo(model).done(function () {
+                        abp.message.info('操作成功!');
+                        that.addClass('js-select-close').addClass('btn-info').removeClass('js-select').html('已选');
+                    }).always(function () {
+                        abp.ui.clearBusy();
+                    });
+                })
+            //取消选中
+            $('body').on('click',
+                '.js-delete',
+                function () {
+                    var that = $(this);
+                    var id = that.data('id');
+                    abp.message.confirm('是否删除?', function (isConfirmed) {
+                        if (isConfirmed) {
+                            abp.ui.setBusy();
+                            l.wInfoGroups.infoGroup.deleteSetGroutInfo(id).done(function () {
+                                abp.message.info('操作成功!').done(function () {
+                                    window.location.reload();
+                                });
+                            }).always(function () {
+                                abp.ui.clearBusy();
+                            });
+                        }
+                    });
+                })
+        })
+
+    </script>
+}

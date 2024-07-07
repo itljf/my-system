@@ -1,0 +1,77 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using L.Web.Themes
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.PageAlerts
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/LayoutBase.cshtml";
+}
+@section plugins_css{
+    @await RenderSectionAsync("plugins_css", false)
+}
+@section styles {
+    @await RenderSectionAsync("styles", false)
+}
+
+@section scripts {
+    <script src="~/Abp/ApplicationConfigurationScript"></script>
+    <script src="~/Abp/ServiceProxyScript"></script>
+    @await RenderSectionAsync("scripts", false)
+}
+<div class="d-flex flex-column flex-root app-root" id="kt_app_root">
+    <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+        <div id="kt_app_header" class="app-header d-flex flex-column flex-stack">
+            <div class="d-flex align-items-center flex-stack flex-grow-1" style="background-color: white;">
+                <div class="app-header-logo d-flex align-items-center flex-stack px-lg-11 mb-2"
+                     id="kt_app_header_logo">
+                    <div class="btn btn-icon btn-active-color-primary w-35px h-35px ms-3 me-2 d-flex d-lg-none"
+                         id="kt_app_sidebar_mobile_toggle">
+                        <i class="ki-duotone ki-abstract-14 fs-2">
+                            <span class="path1">
+                            </span>
+                            <span class="path2">
+                            </span>
+                        </i>
+                    </div>
+                    <a href="/" class="app-sidebar-logo">
+                        <img src="~/images/logo/logo.svg" class="w-150px h-80px" />
+                    </a>
+                    <div id="kt_app_sidebar_toggle" class="app-sidebar-toggle btn btn-sm btn-icon btn-color-warning me-n2 d-none d-lg-flex"
+                         data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
+                         data-kt-toggle-name="app-sidebar-minimize">
+                        <i class="ki-duotone ki-exit-left fs-2x rotate-180">
+                            <span class="path1">
+                            </span>
+                            <span class="path2">
+                            </span>
+                        </i>
+                    </div>
+                </div>
+                <div class="app-navbar flex-grow-1 justify-content-end" id="kt_app_header_navbar">
+                    <div class="app-navbar-item d-flex align-items-stretch flex-lg-grow-1 me-2 me-lg-0">
+                        <div class="fs-1 ps-6">@(ViewBag.Title)</div>
+                    </div>
+                    <div>
+                        @await RenderSectionAsync("content_toolbar", false)
+                    </div>
+                    @(await Component.InvokeAsync<UserInfoViewComponent>())
+                </div>
+            </div>
+        </div>
+        <div class="app-wrapper flex-column flex-row-fluid me-0" id="kt_app_wrapper">
+
+            @(await Component.InvokeAsync<SidebarMenu2ViewComponent>())
+            
+            <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+                <div style="background-color: #E8EAF3; padding: 1.5rem;" class="d-flex flex-column flex-column-fluid">
+                    @(await Component.InvokeAsync<PageAlertsViewComponent>())
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

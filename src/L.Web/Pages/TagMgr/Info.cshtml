@@ -1,0 +1,57 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@using L.WInformations
+@model L.Web.Pages.TagMgr.InfoModel
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = LPermissions.TagMgr.Default;
+    var info = Model.tag;
+    ViewBag.Title = "标签 “"+info.Title+"”关联的博客";
+    int index = 0;
+    
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">
+            @ViewBag.Title
+        </h5>
+        <div class="card-toolbar">
+            <a class="btn btn-primary" asp-page="./Index">
+                <i class="fas fa-arrow-left"></i>
+                返回
+            </a>
+        </div>
+    </div>
+    <div class="card-body row">
+        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+            <tr>
+                <th>#</th>
+                <th>标题</th>
+                <th>作者</th>
+                <th>标签</th>
+                <th>时间</th>
+                <th class="text-center">操作</th>
+            </tr>
+            <tbody>
+                @foreach (var item in info.Informations)
+                {
+                    <tr>
+                        <td>@(++index)</td>
+                        <td>@item.Title</td>
+                        <td>@item.Author</td>
+                        <td>@(string.Join("，",Model.tagList.Where(m=>item.TagItemIdList.Contains(m.Id)).ToList()))</td>
+                        <td>@(item.Time.ToString("yyyy年M月d日"))</td>
+                        <td class="text-center">
+                            <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.Id">查看</a>
+                            <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.Id">删除</a>
+                        </td>
+                    </tr>
+                }
+            <tbody>
+        </table>
+    </div>
+</div>

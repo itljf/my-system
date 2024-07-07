@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/Shared/LayoutBase.cshtml";
+}
+@section plugins_css {
+    @await RenderSectionAsync("plugins_css", false)
+}
+@section content_toolbar {
+    @await RenderSectionAsync("content_toolbar", false)
+}
+@section styles {
+    @await RenderSectionAsync("styles", false)
+}
+@section scripts {
+    @await RenderSectionAsync("scripts", false)
+}
+<div class="d-flex flex-column flex-root" id="kt_app_root">
+    <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+        <div class="d-flex flex-column flex-lg-row-auto bg-primary w-xl-600px positon-xl-relative bg-img-1">
+            <div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px">
+                <div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10 pt-lg-20">
+                    <a href="javascript:;" class="py-2 py-lg-20">
+                        <img src="~/images/logo/logo2.svg" class="w-150px h-80px" />
+                    </a>
+                    <h1 class="d-none d-lg-block fw-bold text-white fs-2qx pb-5 pb-md-10">欢迎使用系统</h1>
+                    <div>
+                        <img src="/images/login.svg"/>
+                    </div>
+                </div>
+                @* <div class="d-none d-lg-block d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url(assets/media/illustrations/sketchy-1/17.png)"></div> *@
+            </div>
+        </div>
+        <div class="d-flex flex-column flex-lg-row-fluid py-10 bg-white">
+            <div class="d-flex flex-center flex-column flex-column-fluid">
+                <div class="w-lg-500px p-10 p-lg-15 mx-auto">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

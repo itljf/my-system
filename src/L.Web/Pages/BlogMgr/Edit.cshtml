@@ -1,0 +1,367 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@using L.WInformations
+@inject IPageLayout PageLayout
+@model L.Web.Pages.BlogMgr.EditModel
+@{
+    ViewBag.Title = "编辑博客";
+    PageLayout.Content.MenuItemName = LPermissions.BlogMgr.Default;
+}
+@section styles {
+    <link href="~/js/editor.md/css/editormd.min.css" rel="stylesheet" />
+}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">
+            @ViewBag.Title
+        </h5>
+        <div class="card-toolbar">
+            <a class="btn btn-primary" asp-page="./Index">
+                <i class="fa fa-plus"></i>
+                返回
+            </a>
+        </div>
+    </div>
+    <div class="card-body row">
+        <div class="col-11">
+            <form asp-page="./Edit" id="js-form" method="post">
+                <input type="hidden" asp-for="InformationDto.Id"/>
+                <input type="hidden" asp-for="InformationDto.Code" />
+                <input type="hidden" asp-for="InformationDto.EditorType" />
+                <input type="hidden" asp-for="InformationDto.BlogFiles" />
+                <input type="hidden" asp-for="InformationDto.Files" />
+                <div class="form-group row mb-6">
+                    <div class="col-2 col-form-label text-right">标题：</div>
+                    <div class="col-10">
+                        <input class="form-control" asp-for="InformationDto.Title"/>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-2 col-form-label text-right">标签：</div>
+                    <div class="col-10 col-form-label">
+                        @foreach (var item in Model.tagInfoList)
+                        {
+                            <label class="form-check form-check-custom form-check-inline form-check-solid me-5 is-valid mb-3">
+                                <input class="form-check-input" name="Tag" type="checkbox" @(Model.InformationDto.TagItemIdList.Contains(item.Id)?"checked=\"checked\"":"")  value="@(item.Id)">
+                                <span class="fw-semibold ps-2 fs-6">@(item.Title)</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-4 col-form-label text-right">文章类型：</div>
+                            <div class="col-8 col-form-label">
+                                <label class="form-check form-check-custom form-check-inline form-check-solid me-5 is-valid">
+                                    <input class="form-check-input" type="checkbox" asp-for="InformationDto.IsReprint" />
+                                    <span class="fw-semibold ps-2 fs-6">转载博客</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-4 col-form-label text-right">发布时间：</div>
+                            <div class="col-8">
+                                <input class="form-control ldate" asp-for="InformationDto.Time" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-4 col-form-label text-right">作者：</div>
+                            <div class="col-8">
+                                <input class="form-control" asp-for="InformationDto.Author" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-4 col-form-label text-right">原文地址：</div>
+                            <div class="col-8">
+                                <input class="form-control" asp-for="InformationDto.Url" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-2 col-form-label text-right">概要：</div>
+                    <div class="col-10">
+
+                        <textarea asp-for="InformationDto.Info" id="Info"></textarea>
+                    </div>
+                </div>
+                @if (Model.InformationDto.EditorType == EditorType.CKEditor)
+                {
+                    <input type="hidden" asp-for="InformationDto.Markdown" />
+                    <div class="form-group row mb-6">
+                        <div class="col-2 col-form-label text-right">内容：</div>
+                        <div class="col-10">
+                            <textarea asp-for="InformationDto.Cnt" id="Cnt"></textarea>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="InformationDto.BlogFiles" />
+                    <div class="form-group row mb-6">
+                        <div class="col-2 col-form-label text-right">内容：</div>
+                        <div class="col-10">
+                            <div id="test-editormd">
+                                <textarea asp-for="InformationDto.Cnt" class="editormd-markdown-textarea" id="Markdown"></textarea>
+                                <textarea class="editormd-html-textarea" name="Content"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group row mb-6">
+                    <div class="col-2 col-form-label text-right"></div>
+                    <div class="col-10">
+                        <button type="button" id="js-save" class="btn btn-primary">提交</button>
+                        @* <button type="button" id="js-test" class="btn btn-primary">测试</button> *@
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    @if (Model.InformationDto.EditorType == EditorType.CKEditor)
+    {
+
+        <script>
+
+            ClassicEditor
+                .create(document.querySelector('#Cnt'),
+                    {
+                        simpleUpload: {
+                            // 图像上传到的URL.
+                            uploadUrl: '/Files/ckeditor',
+                            // 启用XMLHttpRequest.withCredentials属性。
+                            withCredentials: true,
+                            // 标头与XMLHttpRequest一起沿着发送到上载服务器。
+                            headers: {
+                                RequestVerificationToken: abp.security.antiForgery.getToken()
+                            }
+                        }
+                    })
+                .then(editor => {
+                    editor.model.document.on('change:data',
+                        ( evt, data ) => {
+                            $('#Cnt').val(editor.getData());
+                        });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+    }
+    else
+    {
+        <script src="~/js/editor.md/editormd.min.js"></script>
+        <script>
+
+            $("#test-editormd").bind({
+                paste: function() {
+                    var userAgent = navigator.userAgent;
+                    if (userAgent.indexOf("Chrome") > -1) {
+                        paste_img(event);
+                        //                        return false;
+                    }
+                }
+            });
+//            editormd("my-editormd",
+//                { //注意1：这里的就是上面的DIV的id属性值
+//                    width: "90%",
+//                    height: 640,
+//                    syncScrolling: "single",
+//                    path: "/Assets/js/editor.md/lib/", //注意2：你的路径
+//                    saveHTMLToTextarea: true //注意3：这个配置，方便post提交表单
+//                });
+            testEditor = editormd("test-editormd",
+                {
+                    width: "100%",
+                    height: 640,
+                    path: "/js/editor.md/lib/",
+                    saveHTMLToTextarea: true,
+                    imageUpload: true,
+                    imageUploadURL: '@Url.Action("editormd", "Files")',
+                    codeFold: true,
+                    onload: function() {
+                        // 监听粘贴事件
+                        this.cm.on("paste",
+                            function(_cm, e) {
+                                alert("123");
+                                var clipboardData = event.clipboardData || window.clipboardData;
+                                console.log(clipboardData);
+                                if (clipboardData) {
+                                    if (clipboardData.types == "Files") {
+//                                        console.log(clipboardData);
+                                        clipboardToImage();
+                                    } else if ($.inArray("text/html", clipboardData.types) != -1) {
+                                        if (!plainPasteMode && clipboardHTMLToMd(clipboardData.getData("text/html"))) {
+                                            e.preventDefault();
+                                        }
+                                    } else {
+                                        //类型为"text/plain"，快捷键Ctrl+Shift+V
+                                    }
+                                }
+                            });
+                    },
+                    ongetObjCommon: function() {
+                        return objCommon;
+                    }
+                });
+
+            function paste_img(e) {
+                if (e.clipboardData.items) {
+                    // google-chrome
+                    //			alert('support clipboardData.items(chrome ...)');
+                    ele = e.clipboardData.items;
+                    for (var i = 0; i < ele.length; ++i) {
+                        if (ele[i].kind == 'file' && ele[i].type.indexOf('image/') !== -1) {
+                            var blob = ele[i].getAsFile();
+                            //                    console.log(blob);
+                            var url = '@Url.Action("editormd", "Files")'; // 接收上传文件的后台地址
+                            var formData = new FormData(); // FormData 对象
+                            formData.append("file", blob); // 文件对象
+                            var headers = {};
+                            headers["x-xsrf-token"] = abp.security.antiForgery.getToken();
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: formData,
+                                headers: headers,
+                                // 告诉jQuery不要去处理发送的数据
+                                processData: false,
+                                // 告诉jQuery不要去设置Content-Type请求头
+                                contentType: false,
+                                beforeSend: function() {
+                                    console.log("正在进行，请稍候");
+                                },
+                                success: function(responseStr) {
+                                    if (responseStr.success == "1") {
+                                        var html = "![](" + responseStr.url + ")";
+                                        testEditor.insertValue(html);
+                                        testEditor.focus();
+
+                                    }
+
+                                },
+                                error: function(responseStr) {
+                                    console.log("error");
+                                }
+                            });
+
+                            //                    var xhr = new XMLHttpRequest();  // XMLHttpRequest 对象
+                            //                    xhr.open("post", url, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+                            //                    xhr.onload = uploadComplete; //请求完成
+                            //                    xhr.onerror =  uploadFailed; //请求失败
+                            //                    xhr.upload.onprogress = progressFunction;//【上传进度调用方法实现】
+                            //                    xhr.upload.onloadstart = function(){//上传开始执行方法
+                            //                            ot = new Date().getTime();   //设置上传开始时间
+                            //                            oloaded = 0;//设置上传开始时，以上传的文件大小为0
+                            //                    };
+                            //
+                            //                    xhr.send(form); //开始上传，发送form数据
+
+                            //					window.URL = window.URL || window.webkitURL;
+                            //					var blobUrl = window.URL.createObjectURL(blob);
+                            //					console.log(blobUrl);
+                            //
+                            //					var new_img= document.createElement('img');
+                            //					new_img.setAttribute('src', blobUrl);
+                            //					var new_img_intro = document.createElement('p');
+                            //					new_img_intro.innerHTML = 'the pasted img url(open it in new tab): <br /><a target="_blank" href="' + blobUrl + '">' + blobUrl + '</a>';
+                            //
+                            //					document.getElementById('editable').appendChild(new_img);
+                            //					document.getElementById('editable').appendChild(new_img_intro);
+                        };
+
+                    }
+                } else {
+                    alert('non-chrome');
+                }
+            }
+        </script>
+    }
+    <script>
+        $(function() {
+//                console.log(CKEDITOR.instances.editor.getData());
+            $('#js-test').click(function() {
+                var model = $('#js-form').serializeFormToObject(); //serializeFormToObject is defined in main.js
+                var info = model.informationDto;
+                var tagList = [];
+                $('input[name="Tag"]:checked').each((k, v) => {
+                    tagList.push($(v).val());
+                });
+                info.Tag = JSON.stringify(tagList);
+
+                console.log(info);
+            })
+            $("#js-save").click(function() {
+                var model = $('#js-form').serializeFormToObject(); //serializeFormToObject is defined in main.js
+                var info = model.informationDto;
+                var tagList = [];
+                $('input[name="Tag"]:checked').each((k, v) => {
+                    tagList.push($(v).val());
+                });
+                info.Tag = JSON.stringify(tagList);
+                if (info.id != '0') {
+                    abp.ui.setBusy();
+                    l.wInformations.information.update(info.id,info).done(function () {
+                        abp.message.info('操作成功!').done(function() {
+                            window.location.href = '/BlogMgr/index';
+                        });
+                    }).always(function() {
+                        abp.ui.clearBusy();
+                    });
+                } else {
+                    abp.ui.setBusy();
+                    l.wInformations.information.create(info).done(function () {
+                        abp.message.info('操作成功!').done(function() {
+                            window.location.href = '/BlogMgr/index';
+                        });
+                    }).always(function() {
+                        abp.ui.clearBusy();
+                    });
+                }
+            })
+        })
+
+        ClassicEditor
+            .create(document.querySelector('#Info'),
+                {
+                    simpleUpload: {
+                        // 图像上传到的URL.
+                        uploadUrl: '/Files/ckeditor',
+                        // 启用XMLHttpRequest.withCredentials属性。
+                        withCredentials: true,
+                        // 标头与XMLHttpRequest一起沿着发送到上载服务器。
+                        headers: {
+//                            'x-xsrf-token': abp.security.antiForgery.getToken(),
+                            RequestVerificationToken: abp.security.antiForgery.getToken()
+                        }
+                    }
+                })
+            .then(editor => {
+                editor.model.document.on('change:data',
+                    ( evt, data ) => {
+                        $('#Info').val(editor.getData());
+                    });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
+}

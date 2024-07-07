@@ -1,0 +1,167 @@
+﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@inject IPageLayout PageLayout
+@model L.Web.Pages.Blog.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewBag.Title = "博客";
+    PageLayout.Content.MenuItemName = LPermissions.Blogs.Default;
+}
+@section styles{
+    <style>
+        .blog-title {
+            color: #3d4450;
+            cursor: default;
+            display: inline-block;
+            font-size: 1.3rem;
+            line-height: 1.5
+        }
+        .blog-title:hover {
+            -moz-transition: all .3s ease;
+            -o-transition: all .3s ease;
+            -webkit-transition: all .3s ease;
+            color: #d9534f;
+            transition: all .3s ease
+        }
+        .tag-yuan, .tag-zaun, .tag-ding {
+            border: 1px solid #33c5c5;
+            border-radius: 1px;
+            color: #33c5c5;
+            display: inline-block;
+            font-size: 1.1rem;
+            height: 1.6rem;
+            line-height: 1.1rem;
+            margin-right: .3rem;
+            padding: .1rem;
+            text-align: center;
+            width: 1.6rem;
+        }
+        .tag-zaun {
+            border-color: #fe7300;
+            color: #fe7300
+        }
+
+        .tag-ding {
+            border-color: #df534f;
+            color: #df534f
+        }
+        .tagList .tag {
+            background-color: rgba(0, 0, 0, .63);
+            border-bottom: 1px solid #333;
+            border-right: 1px solid #333;
+            color: #fff;
+            cursor: default;
+            display: inline-block;
+            font-size: 1rem;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            padding: 2px 6px 1px 7px;
+            border-radius: 4px;
+        }
+        .tagList .tag:hover,.tagList .tag.active {
+            -moz-transition: all .3s ease;
+            -o-transition: all .3s ease;
+            -webkit-transition: all .3s ease;
+            background: #d9534f;
+            border-bottom: 1px solid #d9534f;
+            border-right: 1px solid #d9534f;
+            transition: all .3s ease
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-9">
+        <div class="card">
+            <div class="card-body pb-0">
+                @foreach (var informationDto in Model.list)
+                {
+                    <div class="border-top py-3">
+                        <a class="blog-title pb-2" href="/Blog/Info?id=@informationDto.Id">
+                            @if (informationDto.IsReprint)
+                            {
+                                <span class="tag-zaun">转</span>
+                            }
+                            else
+                            {
+                                <span class="tag-yuan">原</span>
+                            }
+                            @informationDto.Title
+                        </a>
+                        <div class="d-flex text-gray-500">
+                            <div class="me-2"><i class="far fa-calendar-alt text-gray-500"></i> @informationDto.Time.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                            @if (!informationDto.Author.IsNullOrWhiteSpace())
+                            {
+                                <div class="me-2"><i class="fas fa-user-tag text-gray-500"></i> @informationDto.Author</div>
+                            }
+                            @if (informationDto.InfoTagList!=null && informationDto.InfoTagList.Count > 0)
+                            {
+                                <div class="me-2"><i class="fas fa-tags text-gray-500"></i> @(string.Join("、",informationDto.InfoTagList.Select(m=>m.Title).ToList()))</div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                <abp-paginator model="Model.PagerModel" show-info="true"></abp-paginator>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body d-flex flex-wrap tagList">
+                <form class="mb-4 form-inline d-flex">
+                    <div class="input-group">
+                        <input type="text" name="Name" class="form-control" value="@(Model.input.Name)"/>
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                        <a asp-page="./Index" class="btn btn-light-facebook">重置</a>
+                    </div>
+                </form>
+                @foreach (var tag in Model.tagList)
+                {
+                    <div class="tag">@(tag.Title)</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function() {
+            $(".js-delete1").click(function() {
+                var id = $(this).data("id");
+                abp.message.confirm("确定删除该条信息吗？",
+                    function(isConfirmed) {
+                        if (isConfirmed) {
+                            wP.wInformations.information.delete(id).then(function() {
+                                abp.notify.info("操作成功！");
+                                window.location.reload();
+                            });
+                        }
+                    });
+            })
+            //第二种删除方式
+            $(".js-delete").click(function() {
+                var id = $(this).data("id");
+                abp.message.confirm("确定删除该条信息吗？",
+                    function(isConfirmed) {
+                        if (isConfirmed) {
+                            abp.ui.setBusy();
+                            abp.ajax({
+                                url: '@Url.Action("Index", new { handler = "delete" })' + '&id=' + id,
+                                data: JSON.stringify({id:id,handler:'delete'}),
+                                dataType: 'Json'
+                            }).done(function() {
+                                abp.message.success("操作成功！").done(function() {
+                                    location.reload(true);
+                                });
+                            }).always(function() {
+                                abp.ui.clearBusy();
+                            });
+                        }
+                    });
+            })
+        })
+    </script>
+}

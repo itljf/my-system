@@ -1,0 +1,142 @@
+﻿@page
+@inject IPageLayout PageLayout
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Table
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using L.Permissions
+@model L.Web.Pages.TagMgr.IndexModel
+@{
+    ViewBag.Title = "标签管理";
+    int index = 0;
+    PageLayout.Content.MenuItemName = LPermissions.TagMgr.Default;
+}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">
+            @ViewBag.Title
+        </h5>
+        <div class="card-toolbar">
+            <a class="btn btn-primary js-edit" data-id="0" href="javascript:;" data-href="/TagMgr/Edit?id=0 ">
+                <i class="fa fa-plus"></i>
+                新建标签信息
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table align-middle">
+            <tr>
+                <th>#</th>
+                <th>标签</th>
+                <th class="text-center">关联博客</th>
+                <th class="text-center">创建时间</th>
+                <th class="text-center">置顶</th>
+                <th class="text-center w-300px">操作</th>
+            </tr>
+            @foreach (var item in Model.list)
+            {
+                index++;
+                <tr>
+                    <td>@(index)</td>
+                    <td>@item.Title</td>
+                    <td class="text-center">@item.InforNum</td>
+                    <td class="text-center">@item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="text-center">
+                        @if (item.Top == 0)
+                        {
+                            <button data-id="@item.Id" type="button" title="置顶" class="btn btn-light-primary btn-icon js-top"><i class="bi bi-arrow-up-circle fs-2"></i></button>
+                        }
+                        else
+                        {
+
+                            <button data-id="@item.Id" type="button" title="取消置顶" class="btn btn-primary btn-icon js-top-close"><i class="bi bi-arrow-up-circle fs-2"></i></button>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-primary js-edit" data-id="@item.Id" data-name="@item.Title" href="javascript:;" data-href="/TagMgr/Edit?id=@item.Id">
+                            <i class="fa fa-edit"></i>
+                            编辑
+                        </a>
+                        <a href="javascript:;" class="btn btn-danger js-delete" data-id="@(item.Id)" data-name="@item.Title" type="button"><i class="far fa-trash-alt"></i>删除</a>
+                        <a href="/TagMgr/Info?id=@item.Id" class="btn btn-info"><i class="far fa-eye"></i>查看</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="card-footer">
+        <abp-paginator model="Model.PagerModel" show-info="true"></abp-paginator>
+    </div>
+</div>
+                            
+@section Scripts{
+    <script type="text/javascript">
+        var _createModal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'TagMgr/Edit',
+            modalClass: "createUser"
+        });
+        _createModal.onResult(function () {
+            window.location.reload();
+        });
+        $(function() {
+            $("body").on('click',
+                '.js-edit',
+                function() {
+                    var id = $(this).data('id');
+                    _createModal.open({ id: id });
+                })
+            //删除
+            $("body").on('click',
+                '.js-delete',
+                function() {
+                    var id = $(this).data('id');
+                    var name = $(this).data('name');
+                    abp.message.confirm('', '确认删除标签【' + name + '】？', function (e) {
+                        if (e) {
+                            abp.ui.setBusy();
+                            l.wInfoTags.infoTag.delete(id).done(function () {
+                                abp.message.info('操作成功!').done(function ()
+                                {
+                                    window.location.reload();
+                                });
+                            }).always(function (){
+                                abp.ui.clearBusy();
+                            });
+                        }
+                    })
+                })
+            //置顶
+            $("body").on('click',
+                '.js-top',
+                function() {
+                    var id = $(this).data('id');
+                    abp.ui.setBusy();
+                    l.wInfoTags.infoTag.setTop(id).done(function () {
+                        abp.message.info('操作成功!').done(function ()
+                        {
+                            window.location.reload();
+                        });
+                    }).always(function (){
+                        abp.ui.clearBusy();
+                    });
+                })
+            //取消置顶
+            $("body").on('click',
+                '.js-top-close',
+                function() {
+                    var id = $(this).data('id');
+                    abp.ui.setBusy();
+                    l.wInfoTags.infoTag.closeTop(id).done(function () {
+                        abp.message.info('操作成功!').done(function () {
+                            window.location.reload();
+                        });
+                    }).always(function () {
+                        abp.ui.clearBusy();
+                    });
+                })
+
+        })
+
+    </script>
+}

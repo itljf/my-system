@@ -1,0 +1,115 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<!--begin::Head-->
+<head>
+	<base />
+	<title>@(ViewBag.Title)</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="Saul HTML Free - Bootstrap 5 HTML Multipurpose Admin Dashboard Theme" />
+	<meta name="keywords" content="Saul, bootstrap, bootstrap 5, dmin themes, free admin themes, bootstrap admin, bootstrap dashboard" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--end::Fonts-->
+    @RenderSection("plugins_css", required: false)
+	<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+	<link href="/themes/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/themes/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    @RenderSection("css", required: false)
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="app-blank">
+	<!--end::Theme mode setup on page load-->
+	<!--begin::Root-->
+    <div class="d-flex flex-column flex-root" id="kt_app_root">
+        <!--begin::Authentication - Sign-in -->
+        <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+            <!--begin::Aside-->
+            <div class="d-flex flex-column flex-lg-row-auto bg-primary w-xl-600px positon-xl-relative">
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px scroll-y">
+                    <!--begin::Header-->
+                    <div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10 pt-lg-20">
+                        <!--begin::Logo-->
+                        <a href="../dist/index.html" class="py-2 py-lg-20">
+                            <img alt="Logo" src="assets/media/logos/mail.svg" class="h-40px h-lg-50px" />
+                        </a>
+                        <!--end::Logo-->
+                        <!--begin::Title-->
+                        <h1 class="d-none d-lg-block fw-bold text-white fs-2qx pb-5 pb-md-10">Welcome to Saul HTML Free</h1>
+                        <!--end::Title-->
+                        <!--begin::Description-->
+                        <p class="d-none d-lg-block fw-semibold fs-2 text-white">
+                            Plan your blog post by choosing a topic creating
+                            <br />an outline and checking facts
+                        </p>
+                        <!--end::Description-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Illustration-->
+                    <div class="d-none d-lg-block d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url(assets/media/illustrations/sketchy-1/17.png)"></div>
+                    <!--end::Illustration-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--begin::Aside-->
+            <!--begin::Body-->
+            <div class="d-flex flex-column flex-lg-row-fluid py-10">
+                @RenderBody()  <!-- 这里将渲染具体页面的内容 -->
+                <!--begin::Content-->
+                <!--end::Content-->
+                <!--begin::Footer-->
+                <div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
+                    <!--begin::Links-->
+                    <div class="d-flex flex-center fw-semibold fs-6">
+                        <a href="https://keenthemes.com" class="text-muted text-hover-primary px-2" target="_blank">About</a>
+                        <a href="https://devs.keenthemes.com" class="text-muted text-hover-primary px-2" target="_blank">Support</a>
+                        <a href="https://keenthemes.com/products/saul-html-pro" class="text-muted text-hover-primary px-2" target="_blank">Purchase</a>
+                    </div>
+                    <!--end::Links-->
+                </div>
+                <!--end::Footer-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Authentication - Sign-in-->
+    </div>
+
+
+    <link href="~/libs/abp/core/abp.css" rel="stylesheet" />
+    <script>
+        var classList = [];
+    </script>
+    <script src="~/themes/plugins/global/plugins.bundle.js"></script>
+    <script src="~/themes/js/scripts.bundle.js"></script>
+    
+    
+
+    @* <script src="~/themes/js/custom/authentication/sign-in/general.js"></script> *@
+
+	<script src="~/libs/abp/utils/abp-utils.umd.min.js"></script>
+	<script src="~/libs/abp/core/abp.js"></script>
+    <script src="~/libs/jquery/jquery.js"></script>
+    <script src="~/libs/abp/jquery/abp.jquery.js"></script>
+
+
+    <script src="/libs/sweetalert2/sweetalert2.all.min.js?_v=638513743656830000"></script>
+    <script src="~/libs/abp/abp-sweetalert2.js"></script>
+    @* <script src="~/libs/abp/luxon/abp.luxon.js"></script> *@
+    <!--end::Custom Javascript-->
+    @RenderSection("scripts", required: false)
+	<!--end::Javascript-->
+</body>
+<!--end::Body-->
+</html>

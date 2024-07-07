@@ -1,0 +1,22 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model L.Web.Pages.NavigationMgr.Edit1Model
+@{
+    Layout = null;
+}
+<form method="post" asp-page="/NavigationMgr/Edit1">
+    <abp-modal>
+        <abp-modal-header title="编辑主目录"></abp-modal-header>
+        <abp-modal-body>
+            <input type="hidden" asp-for="info.Id" />
+            <div class="form-group row mb-6">
+                <div class="col-2 col-form-label text-right">标题：</div>
+                <div class="col-10">
+                    <input class="form-control" asp-for="info.Title" />
+                </div>
+            </div>
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

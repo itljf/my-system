@@ -1,0 +1,183 @@
+﻿@page
+@using L.Permissions
+@using L.WInfoTags
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@model L.Web.Pages.Nav.IndexModel
+@inject IPageLayout PageLayout
+@{
+    ViewBag.Title = "导航";
+    PageLayout.Content.MenuItemName = LPermissions.Nav.Default;
+}
+@section styles
+{
+    <abp-style-bundle>
+        <abp-style src="/Pages/Nav/index.css" />
+    </abp-style-bundle>
+}
+<div class="row" data-sticky-container>
+    <div class="col-2">
+        <div class="card sticky" data-sticky="true" data-margin-top="110px" data-sticky-for="1023" data-sticky-class="sticky">
+            <div class="card-body">
+                <div class="nav-my-item" data-id="0"><i class="far fa-flag me-2"></i>置顶网站</div>
+                @foreach (var item in Model.NavList)
+                {
+                    <div class="nav-my-item" data-id="@(item.Id)"><i class="far fa-flag me-2"></i>@(item.Title)</div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="card mb-4" id="js-nav-1-0">
+            <div class="card-body">
+                <div class="d-flex align-items-baseline">
+                    <div class="fs-4">
+                        置顶网站
+                    </div>
+                </div>
+                <div class="d-flex  mt-4" style="overflow-x: auto;">
+                    <div class="nav-my-group">
+                        <div class="nav-3 d-flex flex-row">
+                            @foreach (var item in Model.NavList)
+                            {
+                                foreach (var subDto in item.sub ?? new List<InfoTagDto>())
+                                {
+                                    foreach (var nav in subDto.sub ?? new List<InfoTagDto>())
+                                    {
+                                        if (nav.Top>0)
+                                        {
+                                            <div class="nav-3-item" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@(nav.Cnt.IsNullOrWhiteSpace() ? nav.Title : nav.Cnt)">
+                                                @if (!nav.Files.IsNullOrWhiteSpace())
+                                                {
+                                                    <a href="@nav.Url" target="_blank" class="nav-3-item-img">
+                                                        <img src="@(nav.Files)"/>
+                                                    </a>
+                                                }
+                                                <a href="@nav.Url" target="_blank" class="flex-1">
+                                                    <div class="nav-3-item-title">@nav.Title</div>
+                                                    <div class="nav-3-item-cnt">@nav.Cnt</div>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @foreach (var item in Model.NavList)
+        {
+            <div class="card mb-4" id="js-nav-1-@(item.Id)">
+                <div class="card-body">
+                    <div class="d-flex align-items-baseline">
+                        <div class="fs-4">
+                            @item.Title
+                        </div>
+                        @if (item.sub != null)
+                        {
+                            <div class="mx-2">|</div>
+                            @foreach (var subDto in item.sub)
+                            {
+                                <div class="nav-2-title" data-id="@(subDto.Id)">@subDto.Title</div>
+                            }
+                        }
+                    </div>
+                    @if (item.sub != null)
+                    {
+                        <div class="d-flex  mt-4" style="overflow-x: auto;">
+                            @foreach (var subDto in item.sub)
+                            {
+                                <div class="nav-my-group" id="js-nav-2-@(subDto.Id)">
+                                    <div class="nav-2-title-2">@subDto.Title</div>
+                                    @if (subDto.sub != null)
+                                    {
+                                        <div class="nav-3 d-flex">
+                                            @foreach (var nav in subDto.sub)
+                                            {
+                                                <div class="nav-3-item" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@(nav.Cnt.IsNullOrWhiteSpace() ? nav.Title : nav.Cnt)">
+                                                    @if (!nav.Files.IsNullOrWhiteSpace())
+                                                    {
+                                                        <a href="@nav.Url" target="_blank" class="nav-3-item-img">
+                                                            <img src="@(nav.Files)"/>
+                                                        </a>
+                                                    }
+                                                    <a href="@nav.Url" target="_blank" class="flex-1">
+                                                        <div class="nav-3-item-title">@nav.Title</div>
+                                                        <div class="nav-3-item-cnt">@nav.Cnt</div>
+                                                    </a>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="~/lib/sticky-js/sticky.min.js"></script>
+    <script>
+        $(function () {
+            var sticky = new Sticky('.sticky');
+
+            $(".nav-my-item").click(function() {
+                var id = $(this).data('id');
+                $('html, body').animate({
+                    scrollTop: $('#js-nav-1-'+id).offset().top - 109
+                }, 300); // 第二个参数是动画执行的毫秒数
+            });
+            $(".nav-2-title").click(function () {
+                var id = $(this).data('id');
+                $(".nav-2-title").removeClass('active');
+                $(this).addClass('active');
+//                var element2 = document.getElementById('js-nav-2-' + id);
+                $('#js-nav-2-' + id).parent().animate({
+                    scrollLeft: $('#js-nav-2-' + id).position().left
+                }, 300); // 第二个参数是动画执行的毫秒数
+
+
+//                element.scrollTo({
+//                    top: 0,
+//                    left: $('#js-nav-2-'+id).position().top,
+//                    behavior: 'smooth'
+//                });
+            });
+//            $(".nav-2-title").click(function () {
+//                var id = $(this).data('id');
+//                $(".nav-2-title").removeClass('active');
+//                $(this).addClass('active');
+//                var element2 = document.getElementById('js-nav-2-' + id);
+//                element.scrollTo({
+//                    top: 0,
+//                    left: element2.offsetLeft - 30,
+//                    behavior: 'smooth'
+//                });
+//            });
+        })
+
+//        var element = document.getElementById('js-nav');
+//        $('.js-item').click(function() {
+//            var index = $(this).index();
+//            var element2 = document.getElementById('js-nav' + index);
+//            element.scrollTo({
+//                top: 0,
+//                left: element2.offsetLeft - 30,
+//                behavior: 'smooth'
+//            });
+//        });
+
+    </script>
+
+}

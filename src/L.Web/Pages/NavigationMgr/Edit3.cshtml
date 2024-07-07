@@ -1,0 +1,59 @@
+﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model L.Web.Pages.NavigationMgr.Edit3Model
+@{
+    Layout = null;
+}
+<form method="post" asp-page="/NavigationMgr/Edit3">
+    <abp-modal>
+        <abp-modal-header title="编辑二级导航"></abp-modal-header>
+        <abp-modal-body>
+            <input type="hidden" asp-for="info.Id" />
+            <input type="hidden" asp-for="info.Fid" />
+            <div class="form-group row mb-6">
+                <div class="col-3 col-form-label text-right">标题：</div>
+                <div class="col-8">
+                    <input class="form-control" asp-for="info.Title" />
+                </div>
+            </div>
+            <div class="form-group row mb-6">
+                <div class="col-3 col-form-label text-right">指向地址：</div>
+                <div class="col-8">
+                    <input class="form-control" asp-for="info.Url" />
+                </div>
+            </div>
+            <div class="form-group row mb-6">
+                <div class="col-3 col-form-label text-right">内容：</div>
+                <div class="col-8">
+                    <input class="form-control" asp-for="info.Cnt" />
+                </div>
+            </div>
+            <div class="form-group row mb-6">
+                <div class="col-3 col-form-label text-right">图标：</div>
+                <div class="col-8">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text p-1" style="min-width: 40px;">
+                            <img src="@(Model.info.Files)" style="width: 37px; height: 37px;" />
+                        </span>
+                        <input class="form-control js-paste-picture" asp-for="info.Files"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group row mb-6">
+                <div class="col-3 col-form-label text-right">置顶：</div>
+                <div class="col-8 col-form-label">
+                    <label class="form-check form-check-custom form-check-inline form-check-solid me-5 is-valid">
+                        <input type="radio" class="form-check-input" asp-for="info.Top" value="0" />
+                        <span class="fw-semibold ps-2 fs-6">非置顶</span>
+                    </label>
+                    <label class="form-check form-check-custom form-check-inline form-check-solid me-5 is-valid">
+                        <input type="radio" class="form-check-input" asp-for="info.Top" value="1" />
+                        <span class="fw-semibold ps-2 fs-6">置顶</span>
+                    </label>
+                </div>
+            </div>
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

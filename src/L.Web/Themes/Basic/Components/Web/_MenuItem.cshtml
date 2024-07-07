@@ -1,0 +1,47 @@
+﻿@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.UI.Navigation
+@using L.Web.Common
+@model ApplicationMenuItem
+@inject IPageLayout PageLayout
+@{
+    var elementId = string.IsNullOrEmpty(Model.ElementId) ? string.Empty : $"id=\"{Model.ElementId}\"";
+    var disabled = Model.IsDisabled ? "disabled" : string.Empty;
+    var url = string.IsNullOrEmpty(Model.Url) ? "#" : Url.IsLocalUrl(Model.Url) ? Url.Content(Model.Url.EnsureStartsWith('~')) : Model.Url;
+    bool hasSub = Model.Items != null && Model.Items.Count > 0;
+    bool isTop = ViewData["nav"] == "1";
+    if (isTop)
+    {
+        ViewData["nav"] = "0";
+    }
+
+    var active = WebHelper.HasActive(Model, PageLayout.Content.MenuItemName);
+    var cssClass = active ? "active" : "";
+    var cssClass2 = active ? "show" : "";
+
+}
+
+@if (hasSub)
+{
+    <div @disabled data-kt-menu-trigger="click" @Html.Raw(elementId) class="menu-item menu-accordion @cssClass2">
+        <span class="menu-link @cssClass">
+            @await Html.PartialAsync("~/Themes/Basic/Components/Web/_MenuItemIcon.cshtml", Model)
+            <span class="menu-title">@(Model.DisplayName)</span>
+            <span class="menu-arrow"></span>
+        </span>
+        <div class="menu-sub menu-sub-accordion">
+            @foreach (var item in Model.Items)
+            {
+                @await Html.PartialAsync("~/Themes/Basic/Components/Web/_MenuItem.cshtml", item)
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="menu-item">
+        <a @disabled href="@(url)" target="@Model.Target"  @Html.Raw(elementId) class="menu-link @cssClass">
+            @await Html.PartialAsync("~/Themes/Basic/Components/Web/_MenuItemIcon.cshtml", Model)
+            <span class="menu-title">@(Model.DisplayName)</span>
+        </a>
+    </div>
+}

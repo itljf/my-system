@@ -1,0 +1,15 @@
+﻿@page
+@using L.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@model L.Web.Pages.ErrorModel
+@inject IHtmlLocalizer<LResource> L
+@{
+    Layout = "~/Views/Shared/LayoutBase.cshtml";
+    <div class="text-center">
+        <pre>
+            @Model.ErrorMessage
+        </pre>
+
+        <a href="/" class="btn btn-outline-primary">@L["BackToWebsite"]</a>
+    </div>
+}
