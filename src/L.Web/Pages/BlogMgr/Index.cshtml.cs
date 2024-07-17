@@ -6,6 +6,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using L.WInformations;
 using L.WInfoTags;
+using L.Web.Common;
 
 namespace L.Web.Pages.BlogMgr
 {
@@ -22,7 +23,7 @@ namespace L.Web.Pages.BlogMgr
         {
             input = _input;
             list = await informationAppService.GetPagedList(input);
-            PagerModel = new PagerModel(list.TotalItemCount, list.Count, list.CurrentPageIndex, list.PageSize, "/BlogMgr/Index");
+            PagerModel = new PagerModel(list.TotalItemCount, list.Count, list.CurrentPageIndex, list.PageSize, "/BlogMgr/Index?"+HttpContext.GetQueryStr());
             tagInfoList = await infoTagAppService.GetListByCode(InfoTagCode.blog);
         }
     }

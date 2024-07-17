@@ -1,4 +1,6 @@
-﻿using Volo.Abp.UI.Navigation;
+﻿using System;
+using System.Linq;
+using Volo.Abp.UI.Navigation;
 
 namespace L.Web.Common;
 public static class WebHelper
@@ -18,5 +20,12 @@ public static class WebHelper
                 }
             }
         }{ return false; }
+    }
+
+    public static string GetQueryStr(this Microsoft.AspNetCore.Http.HttpContext context)
+    {
+        var queryCollection = context.Request.Query;
+
+        return string.Join("&", queryCollection.Keys.Where(m=>!m.Equals("currentPage",StringComparison.InvariantCultureIgnoreCase)).Select(k => $"{k}={queryCollection[k]}"));
     }
 }

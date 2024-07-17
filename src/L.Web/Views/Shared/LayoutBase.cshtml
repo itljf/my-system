@@ -119,8 +119,13 @@
 @await RenderSectionAsync("scripts", false)
 <script>
     $(function() {
+        
             laydate.render({
                 elem: '.ldate'
+            });
+            laydate.render({
+                elem: '.ldatetime'
+                ,type: 'datetime'
             });
     })
 </script>

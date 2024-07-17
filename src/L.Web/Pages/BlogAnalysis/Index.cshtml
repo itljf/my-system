@@ -1,7 +1,11 @@
 ﻿@page
+@using L.Permissions
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @model L.Web.Pages.BlogAnalysis.IndexModel
+@inject IPageLayout PageLayout
 @{
     ViewBag.Title = "数据解析";
+    PageLayout.Content.MenuItemName = LPermissions.BlogAnalysis;
 }
 <div class="card">
     <div class="card-header">

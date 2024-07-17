@@ -1,4 +1,5 @@
 ﻿@page
+@using L.Common
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
 @using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
@@ -68,7 +69,7 @@
                         <div class="row">
                             <div class="col-4 col-form-label text-right">发布时间：</div>
                             <div class="col-8">
-                                <input class="form-control ldate" asp-for="InformationDto.Time" />
+                                <input class="form-control ldatetime" name="Time" value="@(Model.InformationDto.Time.To_String(2))" />
                             </div>
                         </div>
                     </div>
@@ -311,6 +312,7 @@
             $("#js-save").click(function() {
                 var model = $('#js-form').serializeFormToObject(); //serializeFormToObject is defined in main.js
                 var info = model.informationDto;
+                info.time = model.time;
                 var tagList = [];
                 $('input[name="Tag"]:checked').each((k, v) => {
                     tagList.push($(v).val());

@@ -225,6 +225,22 @@ public class InfoTagAppService(IRepository<InfoTag, long> infoTagRepository, IRe
         await infoTagItemRepository.DeleteAsync(bgiId);
     }
 
+    #region 标签处理
+
+    /// <summary>
+    /// 获取所有待办信息
+    /// </summary>
+    /// <returns></returns>
+    public async Task<List<InfoTagDto>> GetAllTag()
+    {
+        var query = await infoTagRepository.GetQueryableAsync();
+        var list = query.Where(m => m.Code == InfoTagCode.blog).OrderByDescending(m => m.Time)
+            .ThenByDescending(m => m.CreationTime).ToList();
+        return ObjectMapper.Map<List<InfoTag>, List<InfoTagDto>>(list);
+    }
+
+    #endregion
+
     #region 置顶
 
     /// <summary>

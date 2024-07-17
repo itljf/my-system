@@ -84,3 +84,26 @@ body {
 .blog-cnt p:last-of-type {
     margin-bottom: 0px;
 }
+.ck-editor__editable {
+    min-height: 200px; /* 设置编辑器的最小高度 */
+    max-height: 700px; /* 设置编辑器的最大高度 */
+    overflow-y: scroll; /* 启用滚动条以便内容超出时可以滚动 */
+}
+.w-30 {
+    width: 30%;
+}
+.w-35 {
+    width: 35%;
+}
+.w-40 {
+    width: 40%;
+}
+.w-45 {
+    width: 45%;
+}
+.w-50 {
+    width: 50%;
+}
+.w-55 {
+    width: 55%;
+}

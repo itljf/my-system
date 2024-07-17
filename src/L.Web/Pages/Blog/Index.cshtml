@@ -76,7 +76,8 @@
             <div class="card-body pb-0">
                 @foreach (var informationDto in Model.list)
                 {
-                    <div class="border-top py-3">
+                    informationDto.InfoTagList = Model.tagList.Where(m => informationDto.TagItemIdList.Contains(m.Id)).ToList();
+                    <div class="border-top py-3 bg-hover-light">
                         <a class="blog-title pb-2" href="/Blog/Info?id=@informationDto.Id">
                             @if (informationDto.IsReprint)
                             {
@@ -94,7 +95,7 @@
                             {
                                 <div class="me-2"><i class="fas fa-user-tag text-gray-500"></i> @informationDto.Author</div>
                             }
-                            @if (informationDto.InfoTagList!=null && informationDto.InfoTagList.Count > 0)
+                            @if (informationDto.TagItemIdList != null && informationDto.TagItemIdList.Count > 0)
                             {
                                 <div class="me-2"><i class="fas fa-tags text-gray-500"></i> @(string.Join("、",informationDto.InfoTagList.Select(m=>m.Title).ToList()))</div>
                             }
@@ -134,7 +135,7 @@
                 abp.message.confirm("确定删除该条信息吗？",
                     function(isConfirmed) {
                         if (isConfirmed) {
-                            wP.wInformations.information.delete(id).then(function() {
+                            l.wInformations.information.delete(id).then(function() {
                                 abp.notify.info("操作成功！");
                                 window.location.reload();
                             });

@@ -1,3 +1,5 @@
+using Examine;
+using JiebaNet.Segmenter;
 using L.EntityFrameworkCore;
 using L.Localization;
 using L.MultiTenancy;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 using System.IO;
+using L.Web.Common.Analyzer;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
@@ -108,6 +111,10 @@ public class LWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+        //È«ÎÄ¼ìË÷
+        context.Services.AddExamine();
+        context.Services.AddExamineLuceneIndex("MyIndex",null,new JieBaAnalyzer(TokenizerMode.Search,true));
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)

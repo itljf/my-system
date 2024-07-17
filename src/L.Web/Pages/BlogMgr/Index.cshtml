@@ -11,6 +11,7 @@
     int index = 0;
     PageLayout.Content.MenuItemName = LPermissions.BlogMgr.Default;
 }
+
 <div class="card">
     <div class="card-header">
         <h5 class="card-title">
@@ -18,6 +19,7 @@
                 <input type="text" name="Name" class="form-control w-200px me-2" value="@(Model.input.Name)" />
                 <button type="submit" class="btn btn-primary me-2">搜索</button>
                 <a asp-page="./Index" class="btn btn-light-facebook me-2">重置</a>
+                <a href="javascript:;" id="js-reset" class="btn btn-facebook me-2">重置全文检索信息</a>
             </form>
         </h5>
         <div class="card-toolbar">
@@ -33,10 +35,10 @@
     </div>
     <div class="card-body">
         
-        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0 fs-5">
+        <table class="table table-row-dashed align-middle table-hover gs-0 gy-3 my-0 fs-5">
             <tr>
                 <th>#</th>
-                <th>标题</th>
+                <th class="w-40">标题</th>
                 <th>来源</th>
                 <th>作者</th>
                 <th>标签</th>
@@ -85,6 +87,21 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
+            $("#js-reset").click(function () {
+                abp.message.confirm("确定要重置所有全文检索信息吗？", function (isConfirmed) {
+                    if (isConfirmed) {
+                        abp.ui.setBusy();
+                        l.wInformations.information.resetLucene().done(function () {
+                            abp.message.info('操作成功!').done(function ()
+                            {
+                                window.location.reload();
+                            });
+                        }).always(function (){
+                            abp.ui.clearBusy();
+                        });
+                    }
+                });
+            });
             $(".js-delete").click(function () {
                 var id = $(this).data("id");
                 abp.message.confirm("确定删除该信息吗？", function (isConfirmed) {

@@ -11,7 +11,21 @@
 }
 @section styles{
     <link href="~/js/outline.js/outline.min.css" rel="stylesheet"/>
-    <link href="~/lib/prism/themes/prism-okaidia.min.css" rel="stylesheet"/>
+    <link href="~/js/prism/prism.css" rel="stylesheet" />
+    <style>
+        .blog-cnt img {
+            max-width: 100%;
+        }
+        .blog-info {
+            background-color: #F9E9E2;
+            font-size: 16px;
+            /* padding: 1rem 1.6rem; */
+            padding: 20px 23px;
+            color: #DC4C3E;
+            padding-bottom: 5px;
+            border-radius: 4px;
+        }
+    </style>
 }
 @section content_toolbar {
     @if (info.IsReprint)
@@ -20,6 +34,15 @@
             原文地址
         </a>
     }
+    <a class="btn btn-info ms-2" id="js-edit-tag" href="javascript:;">
+        编辑标签
+    </a>
+    <a class="btn btn-info ms-2" id="js-edit-info" href="javascript:;">
+        编辑概要
+    </a>
+    <a class="btn btn-danger ms-2" id="js-delete" href="javascript:;">
+        删除并返回
+    </a>
     <a class="btn btn-primary ms-2" href="/BlogMgr/Edit?id=@(info.Id)" target="_blank">
         去编辑
     </a>
@@ -32,7 +55,7 @@
 <div class="row" data-sticky-container>
     <div class="col-9" id="article">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body ">
                 <h1 class="">
                     <div class="text-center fs-1 text-center my-10">@(info.Title)</div>
                 </h1>
@@ -40,8 +63,11 @@
                     <span>类型：@(info.IsReprint ? "转载" : "原创")</span>
                     <span class="mx-1">|</span>
                     <span>作者：@(info.Author)</span>
-                    <span class="mx-1">|</span>
-                    <span>原文地址：<a href="@(info.Url)" target="_blank">前往</a></span>
+                    @if (info.IsReprint)
+                    {
+                        <span class="mx-1">|</span>
+                        <span>原文地址：<a href="@(info.Url)" target="_blank">前往</a></span>
+                    }
                     <span class="mx-1">|</span>
                     <span>时间：@(info.Time.ToString("yyyy年M月d日"))</span>
                 </div>
@@ -53,7 +79,7 @@
                 </div>
                 @if (!info.Info.IsNullOrWhiteSpace())
                 {
-                    <div class="alert alert-info fs-4 px-20 blog-cnt" role="alert">
+                    <div class="blog-info">
                         @Html.Raw(info.Info)
                     </div>
                 }
@@ -84,13 +110,106 @@
 @*          *@
 @*     </div> *@
 @* </div> *@
+
+
 @section scripts{
     <script src="~/js/outline.js/outline.min.js"></script>
-    <script src="~/lib/prism/prism.min.js"></script>
+    <script src="~/js/prism/prism.js"></script>
     <script src="~/lib/sticky-js/sticky.min.js"></script>
+    <script src="~/js/ckeditor/ckeditor.js"></script>
     <script>
+        var id = @(Model.info.Id);
+        var _createModal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'Blog/EditTag',
+            modalClass: "createUser"
+        });
+        _createModal.onResult(function() {
+            window.location.reload();
+        });
+
+        var _editModal = new abp.ModalManager({
+            viewUrl: abp.appPath + 'Blog/EditInfo',
+            modalClass: "createUser"
+        });
+        _editModal.onOpen(function() {
+            ClassicEditor
+                .create(document.querySelector('#Info'),
+                    {
+                        simpleUpload: {
+                            // 图像上传到的URL.
+                            uploadUrl: '/Files/ckeditor',
+                            // 启用XMLHttpRequest.withCredentials属性。
+                            withCredentials: true,
+                            // 标头与XMLHttpRequest一起沿着发送到上载服务器。
+                            headers: {
+                                RequestVerificationToken: abp.security.antiForgery.getToken()
+                            }
+                        }
+                    })
+                .then(editor => {
+                    editor.model.document.on('change:data',
+                        ( evt, data ) => {
+                            $('#Info').val(editor.getData());
+                        });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
         $(function() {
-            
+            $('#js-edit-tag').click(function() {
+                _createModal.open({ id: id });
+            });
+            $('body').on('click',
+                '#js-save-tag',
+                function() {
+                    var idList = [];
+                    _createModal.getModal().find('input[name="Tag"]:checked').each(function(k, v) {
+                        idList.push($(v).val());
+                    });
+                    abp.ui.setBusy();
+                    l.wInformations.information.updateTag(id, { Tag: JSON.stringify(idList), info: "" }).done(function () {
+                        abp.notify.success("操作成功！");
+                        window.location.reload();
+                    }).always(function() {
+                        abp.ui.clearBusy();
+                    });
+
+                });
+            $('body').on('click',
+                '#js-save-info',
+                function() {
+                    var model = _editModal.getForm().serializeFormToObject();
+                    model.Tag = "";
+                    abp.ui.setBusy();
+                    l.wInformations.information.updateInfo(id, model).done(function () {
+                        abp.notify.success("操作成功！");
+                        window.location.reload();
+                    }).always(function() {
+                        abp.ui.clearBusy();
+                    });
+
+                });
+            $('#js-edit-info').click(function() {
+                _editModal.open({ id: @(Model.info.Id) });
+
+            });
+
+            $("#js-delete").click(function () {
+                var id = $(this).data("id");
+                abp.message.confirm("确定删除该条信息吗？",
+                    function (isConfirmed) {
+                        if (isConfirmed) {
+                            l.wInformations.information.delete(@(Model.info.Id)).then(function () {
+                                abp.notify.info("操作成功！");
+                                window.history.back();
+                            });
+                        }
+                    });
+            })
+
+//            
+
             var sticky = new Sticky('.sticky');
 
 //            var defaults = Outline.DEFAULTS
@@ -122,7 +241,7 @@
                 // ltr - 菜单位置在窗口左侧，滑动动画为：left to right
                 // ttb - 菜单位置在窗口上方，滑动动画为：top to bottom
                 // btt - 菜单位置在窗口下方，滑动动画为：bottom to top
-                placement: '',
+                placement: 'rtl',
                 // 导航菜单将要插入的位置（DOM 元素）
                 // String 类型 - 选择器字符串
                 // HTMLElement 类型 - 插入的 DOM 元素

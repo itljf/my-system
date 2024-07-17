@@ -91,7 +91,7 @@ public class LMenuContributor : IMenuContributor
             LPermissions.Todo,
             l[LPermissions.Todo],
             url: "/Todo",
-            icon:"fas fa-briefcase"
+            icon:"fab fa-slack-hash"
         ));
         context.Menu.Items.InsertRange(0,list);
 

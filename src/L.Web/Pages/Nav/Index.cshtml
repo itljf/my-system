@@ -35,7 +35,7 @@
                         置顶网站
                     </div>
                 </div>
-                <div class="d-flex  mt-4" style="overflow-x: auto;">
+                <div class="d-flex  mt-4" style="overflow-x: auto;overflow-y: hidden;">
                     <div class="nav-my-group">
                         <div class="nav-3 d-flex flex-row">
                             @foreach (var item in Model.NavList)
@@ -87,7 +87,7 @@
                     </div>
                     @if (item.sub != null)
                     {
-                        <div class="d-flex  mt-4" style="overflow-x: auto;">
+                        <div class="d-flex  mt-4" style="overflow-x: auto;overflow-y: hidden;">
                             @foreach (var subDto in item.sub)
                             {
                                 <div class="nav-my-group" id="js-nav-2-@(subDto.Id)">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace L.WInformations
@@ -66,5 +67,19 @@ namespace L.WInformations
         /// 编辑器类型
         /// </summary>
         public EditorType EditorType { get; set; }
+    }
+
+    public class InformationEditInfoDto
+    {
+        /// <summary>
+        /// 简介
+        /// </summary>
+        [AllowNull]
+        public string Info { get; set; }
+        /// <summary>
+        /// Tag
+        /// </summary>
+        [AllowNull]
+        public string Tag { get; set; }
     }
 }

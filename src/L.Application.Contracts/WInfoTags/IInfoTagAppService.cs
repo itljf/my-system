@@ -88,6 +88,17 @@ public interface IInfoTagAppService:IApplicationService
     /// </summary>
     /// <param name="bgiId"></param>
     Task DeleteSetGroutInfo(long bgiId);
+
+    #region 标签处理
+
+    /// <summary>
+    /// 获取所有待办信息
+    /// </summary>
+    /// <returns></returns>
+    Task<List<InfoTagDto>> GetAllTag();
+
+        #endregion
+
     #region 置顶
 
     /// <summary>
